@@ -1,0 +1,11 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+^README\.Rmd$
+^README-.*\.png$
+^appveyor\.yml$
+^inst/dev\.R$
+^\.Rhistory$
+^NEWS\.md$
+^cran-comments\.md$
+^makefile$
