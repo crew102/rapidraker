@@ -5,7 +5,7 @@ Title: A Fast Implementation of the Rapid Automatic Keyword Extraction (RAKE)
 Version: 0.0.0.9000
 Authors@R: person("Christopher", "Baker", email = "chriscrewbaker@gmail.com",
     role = c("aut", "cre"))
-Description: Provdides a mostly Java-based implementation of the RAKE algorithm, 
+Description: Provides a mostly Java-based implementation of the RAKE algorithm, 
     which can be used to extract keywords from documents without any training 
     data.
 License: MIT + file LICENSE
@@ -14,9 +14,12 @@ LazyData: true
 Depends:
     R (>= 3.1)
 Imports:
-    rJava
+    rJava,
+    slowraker
 Suggests:
     knitr,
     rmarkdown,
     testthat
+SystemRequirements:
+    Java (>= 8.0)
 RoxygenNote: 6.0.1.9000

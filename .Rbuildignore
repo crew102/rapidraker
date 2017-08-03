@@ -9,3 +9,4 @@
 ^NEWS\.md$
 ^cran-comments\.md$
 ^makefile$
+^inst/make-helpers.R$
