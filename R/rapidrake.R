@@ -9,7 +9,7 @@
 rapidrake <- function(txt, stop_words = slowraker::smart_words,
                       filter_pos = c("VB", "VBD", "VBG", "VBN", "VBP", "VBZ"),
                       word_min_char = 3, stem = TRUE) {
-  rkdr <- rJava::.jnew("org.crew102.rapidrake.caller.RakeDriver", txt,
+  rkdr <- rJava::.jnew("org.crew102.rapidrake.RakeWrapper", txt,
                       stop_words, filter_pos, word_min_char, stem)
-  rJava::.jcall(rkdr, "[<Keyword>", "drive")
+  rJava::.jcall(rkdr, "[<String>", "run")
 }
