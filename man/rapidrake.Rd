@@ -4,7 +4,7 @@
 \alias{rapidrake}
 \title{Rapid RAKE}
 \usage{
-rapidrake(txt, stop_words = slowraker::mart_words, filter_pos = c("VB",
+rapidrake(txt, stop_words = slowraker::smart_words, filter_pos = c("VB",
   "VBD", "VBG", "VBN", "VBP", "VBZ"), word_min_char = 3, stem = TRUE)
 }
 \arguments{
@@ -15,29 +15,16 @@ text for one document.}
 documents. The default value (\code{smart_words}) contains the 'SMART' stop
 words (equivalent to
 \href{https://rdrr.io/rforge/tm/man/stopwords.html}{tm::stopwords('SMART')})
-. A value of \code{NULL} indicates that no stop words will be removed.}
-
-\item{filter_pos}{The parts-of-speech (POS) that should be filtered from
-the documents prior to keyword extraction. In other words, if you include
-a part-of-speech in \code{filter_pos}, then all words that are assigned to
-that POS will be removed prior to the RAKE algorithm. \code{filter_pos}
-should be a vector of POS tags. To see all POS tags along with their
-definitions (i.e., the POS that the tag denotes),see the
-\code{\link{pos_tags}} data frame (\code{View(slowraker::pos_tags)}). The
-default is to remove all parts-of-speech that are verbs (e.g.,
-\code{filter_pos = c("VB", "VBD", "VBG", "VBN", "VBP", "VBZ")}). Set
-\code{filter_pos = NULL} if you don't want to remove any words based on
-its part-of-speech.}
+. Set \code{stop_words = NULL} if you don't want to remove stop words.}
 
 \item{word_min_char}{The minimum number of characters that a word must have
 to remain in the corpus. Words with fewer than \code{word_min_char}
-characters will be removed before the RAKE algorithm is applied. Also note
-that filtering words based on \code{word_min_char} happens before stemming,
-so you should not consider the length of a word's stem when choosing
-\code{word_min_char}.}
+characters will be removed before the RAKE algorithm is applied. Note
+that removing words based on \code{word_min_char} happens before stemming,
+so you should consider the full length of the word and not the length of
+its stem when choosing \code{word_min_char}.}
 
-\item{stem}{Do you want to stem the words in your documents before extracting
-keywords?}
+\item{stem}{Do you want to stem the words before running RAKE?}
 }
 \description{
 A relatively fast version of the Rapid Automatic Keyword Extraction (RAKE) algorithm. See \href{http://media.wiley.com/product_data/excerpt/22/04707498/0470749822.pdf}{Automatic keyword extraction from individual documents} for details on how RAKE works.

@@ -7,13 +7,13 @@ build-jar: $(/usr/bin/find java -type f -iname "*\.java") java/rapidrake/pom.xml
 	mkdir -p inst/java
 	cp java/rapidrake/target/*.jar inst/java
 
+# Install package locally
 install-package:
 	cd ..; R CMD INSTALL rapidraker --no-multiarch
 
 # Render README.Rmd to README.md
 README.md: README.Rmd
 	Rscript -e "rmarkdown::render('README.Rmd', output_file = 'README.md', output_dir = getwd(), output_format = 'github_document', quiet = TRUE)"
-	rm README.html
 
 # Document package
 doc:
@@ -26,6 +26,7 @@ test:
 # Clean
 clean:
 	rm README.md
+	rm -rf inst/java
 
 # Build binary
 cran:
