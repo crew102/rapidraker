@@ -1,22 +1,27 @@
 package org.crew102.rapidrake.model;
 
+import java.util.Map;
+
 import opennlp.tools.stemmer.snowball.SnowballStemmer;
 
 // A Keyword is any n-gram that doesn't contain stop words/phrase delims
 
 public class Keyword {
 	
-	private String keyString;
-	private String[] keyStringAry;
+	private String keyString; // e.g., "good dogs"
+	private String[] keyStringAry; // e.g., {"good", "dogs"}
 
-	private String keyStemmedString;
-	private String[] keyStemmedStringAry;
+	private String keyStemmedString; // e.g., "good dog"
+	private String[] keyStemmedStringAry; // e.g., {"good", "dog"}
 	
 	private float score;
 	private int freq; 
 
 	public String[] getKeyStringAry() {
 		return keyStringAry;
+	}
+	public String[] getKeyStemmedAry() {
+		return keyStemmedStringAry;
 	}
 	
 	public Keyword(String keyString, String[] keyStringAry) {
@@ -34,6 +39,24 @@ public class Keyword {
 			 String stemmedToken = k.toString();
 			 keyStemmedStringAry[i] = stemmedToken;
 		 }
+	}
+	
+	public void sumScore(Map<String, Float> scoreVec, boolean stem) {
+		
+		String[] ary;
+		if (stem) {
+			ary = keyStemmedStringAry;
+		} else {
+			ary = keyStringAry;
+		}
+		
+		float sum = 0;
+		for (int i = 0; i < ary.length; i++) {
+			String oneToke = ary[i];
+			float val = scoreVec.get(oneToke);
+			sum = val + sum;
+		}
+		score = sum;
 	}
 	
 }

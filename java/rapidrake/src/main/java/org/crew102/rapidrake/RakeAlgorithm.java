@@ -70,8 +70,10 @@ public class RakeAlgorithm {
 		}
 		
 		// Calc token-level scores
-		Map<String, Float> scoreVec = aDoc.calcTokenScores();
+		Map<String, Float> scoreVec = aDoc.calcTokenScores(stem);
 		
+		// Sum token-level scores for each keyword
+		aDoc.sumKeywordScores(scoreVec, stem);
 		
 	}
 	

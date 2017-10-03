@@ -77,7 +77,15 @@ public class Document {
 		 }
 	}
 	
-	 public Map<String, Float> calcTokenScores() {
+	public void sumKeywordScores(Map<String, Float> scoreVec, boolean stem) {
+		
+		 for (int i = 0; i < keywords.size(); i++) {
+			 Keyword oneKey = keywords.get(i);
+			 oneKey.sumScore(scoreVec, stem);
+		 }
+	}
+	
+	 public Map<String, Float> calcTokenScores(boolean stem) {
 		 
 		 Map<String, Integer> wordfreq = new HashMap<String, Integer>();
 		 Map<String, Integer> worddegTemp = new HashMap<String, Integer>();
@@ -85,7 +93,12 @@ public class Document {
 		 
 		 for (int i = 0; i < keywords.size(); i++) {
 			 Keyword oneKey = keywords.get(i);
-			 String[] keysTokens = oneKey.getKeyStringAry();
+			 String[] keysTokens;
+			 if (stem) {
+				 keysTokens = oneKey.getKeyStemmedAry();
+			 } else {
+				 keysTokens = oneKey.getKeyStringAry();
+			 }
 			 
 			 for (int z = 0; z < keysTokens.length; z++) {
 				 
@@ -108,7 +121,6 @@ public class Document {
 			 String aKey = entry.getKey();
 			 float freq = (float) wordfreq.get(aKey);
 			 float val = (worddegTemp.get(aKey) + freq) / freq;
-			 
 			 scores.put(aKey, val);
 		}
 		 
