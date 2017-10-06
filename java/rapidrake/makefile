@@ -1,4 +1,4 @@
-all: target
+all: target/*.jar
 
 target/*.jar: pom.xml
 	mvn package
