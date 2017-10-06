@@ -1,11 +1,12 @@
 package org.crew102.rapidrake;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import opennlp.tools.tokenize.*;
-import opennlp.tools.postag.*;
+import opennlp.tools.postag.POSTaggerME;
+import opennlp.tools.postag.POSModel;
 import opennlp.tools.stemmer.snowball.SnowballStemmer;
 import org.crew102.rapidrake.model.*;
 
@@ -18,7 +19,6 @@ public class RakeAlgorithm {
 	private boolean stem;
 	
 	// Util objects (should be moved over to document and made static)
-	private Tokenizer tokenizer;
 	private POSTaggerME tagger;
 	private SnowballStemmer stemmer;
 	
@@ -35,12 +35,21 @@ public class RakeAlgorithm {
 		this.stem = stem;
 	}
 	
-	// Load utils
-	private void loadTokenizer() throws java.io.IOException {
-		InputStream modelIn = new FileInputStream("model-bin/en-token.bin");
-		TokenizerModel model = new TokenizerModel(modelIn);
-		tokenizer = new TokenizerME(model);
+	public RakeAlgorithm() {
+		
+		String[] stopWords = new String[] {"i", "do", "be"};
+		List<String> stopWordsArry = Arrays.asList(stopWords);
+		this.stopWords = stopWordsArry;
+		
+		String[] stopPOS = new String[] {"VB", "VBD", "VBG", "VBN", "VBP", "VBZ"};
+		List<String> stopPosArry = Arrays.asList(stopPOS);
+		this.stopPOS = stopPosArry;
+		
+		this.wordMinChar = 2;
+		this.stem = true;
 	}
+	
+	// Load utils
 	private void loadPosTagger() throws java.io.IOException {
 		InputStream modelIn2 = new FileInputStream("model-bin/en-pos-maxent.bin");
 		POSModel model2 = new POSModel(modelIn2);
@@ -50,24 +59,25 @@ public class RakeAlgorithm {
 		stemmer = new SnowballStemmer(SnowballStemmer.ALGORITHM.ENGLISH);
 	}
 	public void loadAllFuns() throws java.io.IOException {
-		loadTokenizer();
 		loadPosTagger();
 		loadStemmer();
 	}
 	
 	// Run rake
-	public void rake(Document aDoc) {
-		
+	public String[] rake(Document aDoc) { 
+		String[] someString = new String[] {"hi there", "old friend"}; 
+//		return someString;
+//		
 		// Create tokens
-		aDoc.initTokens(tokenizer, tagger, stopPOS, wordMinChar, stopWords);
+		aDoc.initTokens(tagger, stopPOS, wordMinChar, stopWords);
 		
 		// Group tokens into keywords
 		aDoc.genKeywords();
 		
 		// Stem tokens in keywords
-		if (stem) {
-			aDoc.stemKeywords(stemmer);
-		}
+		
+		if (stem) 
+			aDoc.stemKeywords();
 		
 		// Calc token-level scores
 		Map<String, Float> scoreVec = aDoc.calcTokenScores(stem);
@@ -75,6 +85,15 @@ public class RakeAlgorithm {
 		// Sum token-level scores for each keyword
 		aDoc.sumKeywordScores(scoreVec, stem);
 		
+//		return aDoc.getKeywords();
+		return someString;
+		
+	}
+	
+	public String[] rake() { 
+		
+		String[] someString = new String[] {"hi there", "old friend"};
+		return someString;
 	}
 	
 }

@@ -11,9 +11,13 @@
 rapidrake <- function(txt, stop_words = slowraker::smart_words,
                       stop_pos = c("VB", "VBD", "VBG", "VBN", "VBP", "VBZ"),
                       word_min_char = 3, stem = TRUE) {
-  rkdr <- rJava::.jnew(
-    "org.crew102.rapidrake.RakeWrapper",
-    txt, stop_words, stop_pos, word_min_char, stem
+  rake_alg <- rJava::.jnew(
+    "org.crew102.rapidrake.RakeAlgorithm",
+    stop_words, stop_pos, as.integer(word_min_char), stem
   )
-  rJava::.jcall(rkdr, "[<String>", "run")
+  doc <- rJava::.jnew(
+    "org.crew102.rapidrake.model.Document",
+    txt[1]
+  )
+  rJava::.jcall(obj = rake_alg, returnSig = "[S", method = "rake", doc, evalString = F)
 }
