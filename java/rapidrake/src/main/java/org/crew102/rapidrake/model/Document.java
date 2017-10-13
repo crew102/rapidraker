@@ -127,4 +127,16 @@ public class Document {
 		 return scores;
 	 }
 	 
+//	 public String[][] getResults() {
+//		 int keySize = keywords.size();
+//		 String[][] keyRes = new String[keySize][3];
+//		 for (int i = 0; i < keyRes.length; i++ ) {
+//			 Keyword x = keywords.get(i);
+//			 keyRes[i][0] = x.getKeyString();
+//			 keyRes[i][1] = x.getStemmedString(); // need to actually create non-empty version
+//			 keyRes[i][2] = x.getScore();
+//		 }
+//		 return keyRes;
+//	 }
+	 
 }
