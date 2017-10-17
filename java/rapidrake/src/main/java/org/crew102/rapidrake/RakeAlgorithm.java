@@ -19,8 +19,8 @@ public class RakeAlgorithm {
 	private boolean stem;
 	
 	// Util objects (should be moved over to document and made static)
-	private POSTaggerME tagger;
-	private SnowballStemmer stemmer;
+	private static POSTaggerME tagger;
+	private static SnowballStemmer stemmer;
 	
 	public RakeAlgorithm(String[] stopWords, String[] stopPOS, 
 			int wordMinChar, boolean stem) throws java.io.IOException {
@@ -50,17 +50,19 @@ public class RakeAlgorithm {
 	}
 	
 	// Load utils
-	private void loadPosTagger() throws java.io.IOException {
-		InputStream modelIn2 = new FileInputStream("model-bin/en-pos-maxent.bin");
-		POSModel model2 = new POSModel(modelIn2);
-		tagger = new POSTaggerME(model2);
-	}
-	private void loadStemmer() throws java.io.IOException {
+	static {
 		stemmer = new SnowballStemmer(SnowballStemmer.ALGORITHM.ENGLISH);
-	}
-	public void loadAllFuns() throws java.io.IOException {
-		loadPosTagger();
-		loadStemmer();
+		
+		InputStream modelIn2;
+		POSModel model2 = null;
+		
+		try {
+			modelIn2 = new FileInputStream("model-bin/en-pos-maxent.bin");
+			model2 = new POSModel(modelIn2);
+		} catch (IOException ex) {
+			// need to handle exception
+		}
+		tagger = new POSTaggerME(model2);
 	}
 	
 	// Run rake
@@ -76,7 +78,7 @@ public class RakeAlgorithm {
 		
 		// Stem tokens in keywords
 		
-		if (stem) aDoc.stemKeywords();
+		if (stem) aDoc.stemKeywords(stemmer);
 		
 		// Calc token-level scores
 		Map<String, Float> scoreVec = aDoc.calcTokenScores(stem);

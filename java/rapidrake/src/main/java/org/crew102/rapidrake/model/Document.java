@@ -90,8 +90,7 @@ public class Document {
 		}
 	}
 	
-	public void stemKeywords() {
-		SnowballStemmer stemmer = new SnowballStemmer(SnowballStemmer.ALGORITHM.ENGLISH);
+	public void stemKeywords(SnowballStemmer stemmer) {
 		 for (int i = 0; i < keywords.size(); i++) {
 			 Keyword oneKey = keywords.get(i);
 			 oneKey.stem(stemmer);
