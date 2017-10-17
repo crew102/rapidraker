@@ -64,20 +64,19 @@ public class RakeAlgorithm {
 	}
 	
 	// Run rake
-	public String[] rake(Document aDoc) { 
-		String[] someString = new String[] {"hi there", "old friend"}; 
-//		return someString;
+	public Result rake(Document aDoc) { 
 //		
 		// Create tokens
 		aDoc.initTokens(tagger, stopPOS, wordMinChar, stopWords);
 		
+		String cleanedString = aDoc.collapseTokens();
+		
 		// Group tokens into keywords
-		aDoc.genKeywords();
+		aDoc.initKeywords(cleanedString);
 		
 		// Stem tokens in keywords
 		
-		if (stem) 
-			aDoc.stemKeywords();
+		if (stem) aDoc.stemKeywords();
 		
 		// Calc token-level scores
 		Map<String, Float> scoreVec = aDoc.calcTokenScores(stem);
@@ -85,15 +84,9 @@ public class RakeAlgorithm {
 		// Sum token-level scores for each keyword
 		aDoc.sumKeywordScores(scoreVec, stem);
 		
-//		return aDoc.getKeywords();
-		return someString;
+		return aDoc.returnResult();
 		
 	}
 	
-	public String[] rake() { 
-		
-		String[] someString = new String[] {"hi there", "old friend"};
-		return someString;
-	}
 	
 }

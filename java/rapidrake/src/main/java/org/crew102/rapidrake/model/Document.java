@@ -8,24 +8,40 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.stemmer.snowball.SnowballStemmer;
-import opennlp.tools.tokenize.*;
+import opennlp.tools.tokenize.SimpleTokenizer;
 import org.crew102.rapidrake.model.Token;
 
 public class Document {
 	
 	private String txtEl;
-	private ArrayList<Token> tokens;
-	private ArrayList<Keyword> keywords;
+	private ArrayList<Token> tokens = new ArrayList<Token>();
+	private ArrayList<Keyword> keywords = new ArrayList<Keyword>();
+	
+	public Result returnResult() {
+		
+		String[] full = new String[keywords.size()];
+		String[] stemmed = new String[keywords.size()];
+		float[] scores = new float[keywords.size()];
+		
+		for (int i = 0; i < keywords.size(); i++) {
+			Keyword oneKey = keywords.get(i);
+			full[i] = oneKey.getKeyString();
+			stemmed[i] = oneKey.getStemmedString();
+			scores[i] = oneKey.getScore();			
+		}
+		
+		Result aRes = new Result(full, stemmed, scores);
+		return aRes;
+	}
 
 	public Document(String txt) {
 		this.txtEl = txt;
-		this.tokens = new ArrayList<Token>();
-		this.keywords = new ArrayList<Keyword>();
 	}
 	
-	public void initTokens(Tokenizer tokenizer, POSTaggerME tagger,
+	public void initTokens(POSTaggerME tagger,
 			List<String> stopPOSArry, int wordMinChar, List<String> stopWords) {
 		
+		SimpleTokenizer tokenizer = SimpleTokenizer.INSTANCE; 
 		String[] tokenArray = tokenizer.tokenize(txtEl);
 		String[] tagArray = tagger.tag(tokenArray);
 
@@ -43,7 +59,7 @@ public class Document {
 		}
 	}
 	
-	public void genKeywords() {
+	public String collapseTokens() {
 		
 		StringBuilder fullBuff = new StringBuilder();
 		
@@ -54,7 +70,12 @@ public class Document {
 		}
 	
 		String fullString = fullBuff.toString();
-		String[] aryKey = fullString.split("[,.?():;\"-]");
+		return fullString;
+	}
+	
+	public void initKeywords(String cleanedTxt) {
+		
+		String[] aryKey = cleanedTxt.split("[,.?():;\"-]");
 		Pattern anyWordChar = Pattern.compile("[a-z]");
 		
 		for (int i = 0; i < aryKey.length; i++) {
@@ -69,8 +90,8 @@ public class Document {
 		}
 	}
 	
-	public void stemKeywords(SnowballStemmer stemmer) {
-		
+	public void stemKeywords() {
+		SnowballStemmer stemmer = new SnowballStemmer(SnowballStemmer.ALGORITHM.ENGLISH);
 		 for (int i = 0; i < keywords.size(); i++) {
 			 Keyword oneKey = keywords.get(i);
 			 oneKey.stem(stemmer);
@@ -126,17 +147,5 @@ public class Document {
 		 
 		 return scores;
 	 }
-	 
-//	 public String[][] getResults() {
-//		 int keySize = keywords.size();
-//		 String[][] keyRes = new String[keySize][3];
-//		 for (int i = 0; i < keyRes.length; i++ ) {
-//			 Keyword x = keywords.get(i);
-//			 keyRes[i][0] = x.getKeyString();
-//			 keyRes[i][1] = x.getStemmedString(); // need to actually create non-empty version
-//			 keyRes[i][2] = x.getScore();
-//		 }
-//		 return keyRes;
-//	 }
 	 
 }

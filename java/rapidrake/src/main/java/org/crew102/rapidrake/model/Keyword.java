@@ -7,21 +7,31 @@ import opennlp.tools.stemmer.snowball.SnowballStemmer;
 // A Keyword is any n-gram that doesn't contain stop words/phrase delims
 
 public class Keyword {
-	
+		
 	private String keyString; // e.g., "good dogs"
-	private String[] keyStringAry; // e.g., {"good", "dogs"}
-
 	private String keyStemmedString; // e.g., "good dog"
-	private String[] keyStemmedStringAry; // e.g., {"good", "dog"}
 	
-	private float score;
-	private int freq; 
+	private String[] keyStringAry; // e.g., {"good", "dogs"}
+	private String[] keyStemmedStringAry; // e.g., {"good", "dog"}
 
+	private float score;
+	
 	public String[] getKeyStringAry() {
 		return keyStringAry;
 	}
 	public String[] getKeyStemmedAry() {
 		return keyStemmedStringAry;
+	}
+	
+	/// 
+	public String getKeyString() {
+		return keyString;
+	}
+	public String getStemmedString() {
+		return keyStemmedString;
+	}
+	public float getScore() {
+		return score;
 	}
 	
 	public Keyword(String keyString, String[] keyStringAry) {
