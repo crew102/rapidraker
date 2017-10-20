@@ -2,8 +2,6 @@ package org.crew102.rapidrake.model;
 
 import java.util.Map;
 
-import opennlp.tools.stemmer.snowball.SnowballStemmer;
-
 // A Keyword is any n-gram that doesn't contain stop words/phrase delims
 
 public class Keyword {
@@ -39,19 +37,6 @@ public class Keyword {
 		this.keyStringAry = keyStringAry;
 		this.keyStemmedStringAry = new String[keyStringAry.length];
 		this.keyStemmedString = new String();
-	}
-	
-	// move this to Token class and make stemmer object static
-	public void stem(SnowballStemmer stemmer) {
-		
-		 for (int i = 0; i < keyStringAry.length; i++) {
-			 String one = keyStringAry[i];
-			 CharSequence k = stemmer.stem(one);
-			 String stemmedToken = k.toString();
-			 keyStemmedStringAry[i] = stemmedToken;
-		 }
-		 
-		 // need to collapse tokens and create keyStemmedString
 	}
 	
 	public void sumScore(Map<String, Float> scoreVec, boolean stem) {

@@ -2,11 +2,9 @@ package org.crew102.rapidrake.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import opennlp.tools.stemmer.snowball.SnowballStemmer;
 import opennlp.tools.tokenize.SimpleTokenizer;
 import org.crew102.rapidrake.model.Token;
 
@@ -36,21 +34,24 @@ public class Document {
 		this.txtEl = txt;
 	}
 	
-	public void initTokens(List<String> stopPOSArry, int wordMinChar, List<String> stopWords) {
+	public void initTokens(RakeParams rakeParams) {
 		
-		SimpleTokenizer tokenizer = SimpleTokenizer.INSTANCE; 
-		String[] tokenArray = tokenizer.tokenize(txtEl);
+		String[] tokenArray = SimpleTokenizer.INSTANCE.tokenize(txtEl);
 		String[] tagArray = Tagger.posTagger.tag(tokenArray);
 
 		for (int i = 0; i < tokenArray.length; i++) {
+			
 			String token = tokenArray[i];
 			String tag = tagArray[i];
-			
-			if (stopPOSArry.contains(tag) | token.length() < wordMinChar | stopWords.contains(token)) {
+						
+			if (rakeParams.getStopPOS().contains(tag) | token.length() < rakeParams.getWordMinChar() | rakeParams.getStopPOS().contains(token)) {
 				Token x = new Token(".");
 				tokens.add(x);
 			} else {
 				Token x = new Token(token.toLowerCase());
+				if (rakeParams.shouldStem()) {
+					x.stem();
+				}
 				tokens.add(x);
 			}
 		}
@@ -86,22 +87,16 @@ public class Document {
 		}
 	}
 	
-	public void stemKeywords(SnowballStemmer stemmer) {
-		 for (int i = 0; i < keywords.size(); i++) {
-			 Keyword oneKey = keywords.get(i);
-			 oneKey.stem(stemmer);
-		 }
-	}
 	
-	public void sumKeywordScores(Map<String, Float> scoreVec, boolean stem) {
+	public void sumKeywordScores(Map<String, Float> scoreVec, RakeParams rakeParams) {
 		
 		 for (int i = 0; i < keywords.size(); i++) {
 			 Keyword oneKey = keywords.get(i);
-			 oneKey.sumScore(scoreVec, stem);
+			 oneKey.sumScore(scoreVec, rakeParams.shouldStem());
 		 }
 	}
 	
-	 public Map<String, Float> calcTokenScores(boolean stem) {
+	 public Map<String, Float> calcTokenScores(RakeParams rakeParams) {
 		 
 		 Map<String, Integer> wordfreq = new HashMap<String, Integer>();
 		 Map<String, Integer> worddegTemp = new HashMap<String, Integer>();
@@ -110,7 +105,7 @@ public class Document {
 		 for (int i = 0; i < keywords.size(); i++) {
 			 Keyword oneKey = keywords.get(i);
 			 String[] keysTokens;
-			 if (stem) {
+			 if (rakeParams.shouldStem()) {
 				 keysTokens = oneKey.getKeyStemmedAry();
 			 } else {
 				 keysTokens = oneKey.getKeyStringAry();
