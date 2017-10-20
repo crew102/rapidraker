@@ -1,6 +1,5 @@
 package org.crew102.rapidrake;
 
-import java.util.Map;
 import org.crew102.rapidrake.model.*;
 
 public class RakeAlgorithm {
@@ -26,19 +25,14 @@ public class RakeAlgorithm {
 		// Create tokens
 		aDoc.initTokens(rakeParams);
 		
-		String cleanedString = aDoc.collapseTokens();
-		
 		// Group tokens into keywords
-		aDoc.initKeywords(cleanedString);
+		aDoc.initKeywords();
 		
-		// Calc token-level scores
-		Map<String, Float> scoreVec = aDoc.calcTokenScores(rakeParams);
+		// Calculate keyword scores
+		aDoc.calculateScores(rakeParams);
 		
-		// Sum token-level scores for each keyword
-		aDoc.sumKeywordScores(scoreVec, rakeParams);
-		
+		// Return result object
 		return aDoc.returnResult();
 	}
-	
 	
 }

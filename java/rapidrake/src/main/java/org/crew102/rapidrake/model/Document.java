@@ -13,22 +13,6 @@ public class Document {
 	private String txtEl;
 	private ArrayList<Token> tokens = new ArrayList<Token>();
 	private ArrayList<Keyword> keywords = new ArrayList<Keyword>();
-	
-	public Result returnResult() {
-		
-		String[] full = new String[keywords.size()];
-		String[] stemmed = new String[keywords.size()];
-		float[] scores = new float[keywords.size()];
-		
-		for (int i = 0; i < keywords.size(); i++) {
-			Keyword oneKey = keywords.get(i);
-			full[i] = oneKey.getKeyString();
-			stemmed[i] = oneKey.getStemmedString();
-			scores[i] = oneKey.getScore();			
-		}
-		
-		return new Result(full, stemmed, scores);
-	}
 
 	public Document(String txt) {
 		this.txtEl = txt;
@@ -57,21 +41,9 @@ public class Document {
 		}
 	}
 	
-	public String collapseTokens() {
+	public void initKeywords() {
 		
-		StringBuilder fullBuff = new StringBuilder();
-		
-		for (int i = 0; i < tokens.size(); i++) {
-			Token atok = tokens.get(i);	
-			String toAdd = atok.getFullForm() + " ";
-			fullBuff.append(toAdd);
-		}
-	
-		return fullBuff.toString();
-	}
-	
-	public void initKeywords(String cleanedTxt) {
-		
+		String cleanedTxt = collapseTokens();
 		String[] aryKey = cleanedTxt.split("[,.?():;\"-]");
 		Pattern anyWordChar = Pattern.compile("[a-z]");
 		
@@ -87,16 +59,29 @@ public class Document {
 		}
 	}
 	
-	
-	public void sumKeywordScores(Map<String, Float> scoreVec, RakeParams rakeParams) {
+	public String collapseTokens() {
 		
-		 for (int i = 0; i < keywords.size(); i++) {
-			 Keyword oneKey = keywords.get(i);
-			 oneKey.sumScore(scoreVec, rakeParams.shouldStem());
-		 }
+		StringBuilder fullBuff = new StringBuilder();
+		
+		for (int i = 0; i < tokens.size(); i++) {
+			Token atok = tokens.get(i);	
+			String toAdd = atok.getFullForm() + " ";
+			fullBuff.append(toAdd);
+		}
+	
+		return fullBuff.toString();
 	}
 	
-	 public Map<String, Float> calcTokenScores(RakeParams rakeParams) {
+	public void calculateScores(RakeParams rakeParams) {
+		
+		// Calc token-level scores
+		Map<String, Float> scoreVec = calcTokenScores(rakeParams);
+		
+		// Sum token-level scores for each keyword
+		sumKeywordScores(scoreVec, rakeParams);
+	}
+	
+	private Map<String, Float> calcTokenScores(RakeParams rakeParams) {
 		 
 		 Map<String, Integer> wordfreq = new HashMap<String, Integer>();
 		 Map<String, Integer> worddegTemp = new HashMap<String, Integer>();
@@ -136,6 +121,30 @@ public class Document {
 		}
 		 
 		 return scores;
-	 }
+	}
+	
+	private void sumKeywordScores(Map<String, Float> scoreVec, RakeParams rakeParams) {
+		
+		 for (int i = 0; i < keywords.size(); i++) {
+			 Keyword oneKey = keywords.get(i);
+			 oneKey.sumScore(scoreVec, rakeParams);
+		 }
+	}
+	
+	public Result returnResult() {
+		
+		String[] full = new String[keywords.size()];
+		String[] stemmed = new String[keywords.size()];
+		float[] scores = new float[keywords.size()];
+		
+		for (int i = 0; i < keywords.size(); i++) {
+			Keyword oneKey = keywords.get(i);
+			full[i] = oneKey.getKeyString();
+			stemmed[i] = oneKey.getStemmedString();
+			scores[i] = oneKey.getScore();			
+		}
+		
+		return new Result(full, stemmed, scores);
+	}
 	 
 }
