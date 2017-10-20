@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.stemmer.snowball.SnowballStemmer;
 import opennlp.tools.tokenize.SimpleTokenizer;
 import org.crew102.rapidrake.model.Token;
@@ -30,20 +29,18 @@ public class Document {
 			scores[i] = oneKey.getScore();			
 		}
 		
-		Result aRes = new Result(full, stemmed, scores);
-		return aRes;
+		return new Result(full, stemmed, scores);
 	}
 
 	public Document(String txt) {
 		this.txtEl = txt;
 	}
 	
-	public void initTokens(POSTaggerME tagger,
-			List<String> stopPOSArry, int wordMinChar, List<String> stopWords) {
+	public void initTokens(List<String> stopPOSArry, int wordMinChar, List<String> stopWords) {
 		
 		SimpleTokenizer tokenizer = SimpleTokenizer.INSTANCE; 
 		String[] tokenArray = tokenizer.tokenize(txtEl);
-		String[] tagArray = tagger.tag(tokenArray);
+		String[] tagArray = Tagger.posTagger.tag(tokenArray);
 
 		for (int i = 0; i < tokenArray.length; i++) {
 			String token = tokenArray[i];
@@ -69,8 +66,7 @@ public class Document {
 			fullBuff.append(toAdd);
 		}
 	
-		String fullString = fullBuff.toString();
-		return fullString;
+		return fullBuff.toString();
 	}
 	
 	public void initKeywords(String cleanedTxt) {

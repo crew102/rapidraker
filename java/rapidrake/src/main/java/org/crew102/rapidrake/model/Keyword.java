@@ -41,6 +41,7 @@ public class Keyword {
 		this.keyStemmedString = new String();
 	}
 	
+	// move this to Token class and make stemmer object static
 	public void stem(SnowballStemmer stemmer) {
 		
 		 for (int i = 0; i < keyStringAry.length; i++) {
@@ -49,6 +50,8 @@ public class Keyword {
 			 String stemmedToken = k.toString();
 			 keyStemmedStringAry[i] = stemmedToken;
 		 }
+		 
+		 // need to collapse tokens and create keyStemmedString
 	}
 	
 	public void sumScore(Map<String, Float> scoreVec, boolean stem) {

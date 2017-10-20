@@ -15,7 +15,8 @@ Depends:
     R (>= 3.1)
 Imports:
     rJava,
-    slowraker
+    slowraker,
+    openNLPdata
 Suggests:
     knitr,
     rmarkdown,

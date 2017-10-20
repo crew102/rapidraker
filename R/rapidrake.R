@@ -11,9 +11,18 @@
 rapidrake <- function(txt, stop_words = slowraker::smart_words,
                       stop_pos = c("VB", "VBD", "VBG", "VBN", "VBP", "VBZ"),
                       word_min_char = 3, stem = TRUE) {
+
+  tagger_bin <- system.file("models/en-pos-maxent.bin", package = "openNLPdata")
+
+  pos_tagger <- rJava::.jnew(
+    "org.crew102.rapidrake.model.Tagger",
+    tagger_bin
+  )
+
   rake_alg <- rJava::.jnew(
     "org.crew102.rapidrake.RakeAlgorithm",
-    stop_words, stop_pos, as.integer(word_min_char), stem
+    stop_words, stop_pos, as.integer(word_min_char), stem,
+    pos_tagger
   )
   doc <- rJava::.jnew(
     "org.crew102.rapidrake.model.Document",
