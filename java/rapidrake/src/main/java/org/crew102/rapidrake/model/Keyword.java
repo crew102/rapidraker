@@ -39,10 +39,10 @@ public class Keyword {
 		this.keyStemmedString = new String();
 	}
 	
-	public void sumScore(Map<String, Float> scoreVec, boolean stem) {
+	public void sumScore(Map<String, Float> scoreVec, RakeParams rakeParams) {
 		
 		String[] ary;
-		if (stem) {
+		if (rakeParams.shouldStem()) {
 			ary = keyStemmedStringAry;
 		} else {
 			ary = keyStringAry;
