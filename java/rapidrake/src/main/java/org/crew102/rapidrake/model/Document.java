@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.tokenize.SimpleTokenizer;
-import org.crew102.rapidrake.model.Token;
 
 public class Document {
 	
@@ -18,10 +19,10 @@ public class Document {
 		this.txtEl = txt;
 	}
 	
-	public void initTokens(RakeParams rakeParams) {
+	public void initTokens(RakeParams rakeParams, POSTaggerME tagger) {
 		
 		String[] tokenArray = SimpleTokenizer.INSTANCE.tokenize(txtEl);
-		String[] tagArray = Tagger.posTagger.tag(tokenArray);
+		String[] tagArray = tagger.tag(tokenArray);
 
 		for (int i = 0; i < tokenArray.length; i++) {
 			

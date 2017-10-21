@@ -1,7 +1,7 @@
 package org.crew102.rapidrake.model;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 import opennlp.tools.postag.POSModel;
@@ -9,8 +9,7 @@ import opennlp.tools.postag.POSTaggerME;
 
 public class Tagger {
 	
-	public static POSTaggerME posTagger;
-	private static String inputString;
+	private String inputString;
 	
 	public Tagger(String inputString) {
 		this.inputString = inputString;
@@ -18,20 +17,14 @@ public class Tagger {
 	public Tagger() {
 		this.inputString = "model-bin/en-pos-maxent.bin";
 	}
-		
-	// Load utils
-	static {
-		InputStream modelIn2;
-		POSModel model2 = null;
-		
-		try {
-			modelIn2 = new FileInputStream(inputString);
-			model2 = new POSModel(modelIn2);
-		} catch (IOException ex) {
-			// need to handle exception
-		}
-		posTagger = new POSTaggerME(model2);
-	}
 	
-
+	public POSTaggerME getPosTagger() throws java.io.IOException {
+		InputStream modelIn2 = new FileInputStream(inputString);
+		
+		File fi = new File(inputString);
+		System.out.println(fi.exists());
+		POSModel model2 = new POSModel(modelIn2);
+		return new POSTaggerME(model2);
+	}
+		
 }
