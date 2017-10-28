@@ -15,9 +15,8 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-```{r, eval = FALSE}
-if (!("devtools" %in% installed.packages()[,1]))
-  install.packages("devtools")
+```r
+if (!require(devtools)) install.packages("devtools")
 
 devtools::install_github("crew102/rapidraker")
 ```
