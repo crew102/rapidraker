@@ -27,11 +27,11 @@ public class TestRapidRake {
     public void tesInitTokens() {
     	Result myRes = myAlg.rake(myDoc);
     	float[] someScores = myRes.getScores();
-    	double actual = (double) someScores[1];
+    	double actual = (double) someScores[0];
     	
-    	double expected = (double) 1.2;
+    	double expected = (double) 1.6;
     	
-    	assertEquals(expected, actual, 0);
+    	assertEquals(expected, actual, .1);
      }
    
 
