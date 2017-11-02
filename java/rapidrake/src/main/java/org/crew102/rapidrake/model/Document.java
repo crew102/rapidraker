@@ -12,34 +12,31 @@ import opennlp.tools.tokenize.SimpleTokenizer;
 public class Document {
 	
 	private String txtEl;
-	private ArrayList<Token> tokens = new ArrayList<Token>();
-	private ArrayList<Keyword> keywords = new ArrayList<Keyword>();
 
 	public Document(String txt) {
 		this.txtEl = txt;
 	}
 	
-	public void initTokens(RakeParams rakeParams, POSTaggerME tagger) {
+	public String[] tokenize(String txtEl) {
+		return SimpleTokenizer.INSTANCE.tokenize(txtEl);
+	}
+	
+	public String[] tag(String[] tokens, POSTaggerME tagger) {
+		return tagger.tag(tokens);
+	}
+	
+	public String[] replaceUnwantedTokens(String[] tokens, String[] tags, RakeParams rakeParams) {
 		
-		String[] tokenArray = SimpleTokenizer.INSTANCE.tokenize(txtEl);
-		String[] tagArray = tagger.tag(tokenArray);
-
-		for (int i = 0; i < tokenArray.length; i++) {
+		for (int i = 0; i < tokens.length; i++) {
 			
-			String token = tokenArray[i];
-			String tag = tagArray[i];
+			String oneToken = tokens[i];
+			String oneTag = tags[i];
 						
-			if (rakeParams.getStopPOS().contains(tag) | token.length() < rakeParams.getWordMinChar() | rakeParams.getStopPOS().contains(token)) {
-				Token x = new Token(".");
-				tokens.add(x);
-			} else {
-				Token x = new Token(token.toLowerCase());
-				if (rakeParams.shouldStem()) {
-					x.stem();
-				}
-				tokens.add(x);
+			if (rakeParams.getStopPOS().contains(oneTag) | oneToken.length() < rakeParams.getWordMinChar() | rakeParams.getStopWords().contains(oneToken)) {
+				tokens[i] = ".";
 			}
 		}
+		return tokens;
 	}
 	
 	public void initKeywords() {
