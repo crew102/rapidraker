@@ -7,10 +7,10 @@ import java.util.Map;
 public class Keyword {
 		
 	private String keyString; // e.g., "good dogs"
-	private String keyStemmedString; // e.g., "good dog"
 	
 	private String[] keyStringAry; // e.g., {"good", "dogs"}
 	private String[] keyStemmedStringAry; // e.g., {"good", "dog"}
+	private String keyStemmedString; // e.g., "good dog"
 
 	private float score;
 	
@@ -35,8 +35,13 @@ public class Keyword {
 	public Keyword(String keyString, String[] keyStringAry) {
 		this.keyString = keyString;
 		this.keyStringAry = keyStringAry;
-		this.keyStemmedStringAry = new String[keyStringAry.length];
-		this.keyStemmedString = new String();
+	}
+	
+	public Keyword(String keyString, String[] keyStringAry, String keyStemmedString, String[] keyStemmedStringAry) {
+		this.keyString = keyString;
+		this.keyStringAry = keyStringAry;
+		this.keyStemmedString = keyStemmedString;
+		this.keyStemmedStringAry = keyStemmedStringAry;
 	}
 	
 	public void sumScore(Map<String, Float> scoreVec, RakeParams rakeParams) {
