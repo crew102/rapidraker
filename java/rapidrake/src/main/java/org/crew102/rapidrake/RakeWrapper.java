@@ -9,8 +9,7 @@ public class RakeWrapper {
 	// For testing
 	public static void main(String[] args) throws java.io.IOException {
 		RakeAlgorithm alg = new RakeAlgorithm();
-		Document aD = new Document("this is a fun thing to do, right?");
-		Result out = alg.rake(aD);
+		Result out = alg.rake("this is a fun thing to do, right?");
 		
 	}
 }
