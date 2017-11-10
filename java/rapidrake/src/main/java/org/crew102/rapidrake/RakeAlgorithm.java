@@ -35,7 +35,7 @@ public class RakeAlgorithm {
 	
 	////
 	
-	public static Result rake(String txtEl) {
+	public Result rake(String txtEl) {
 		String[] tokens = tokenize(txtEl);
 		String[] tags = tag(tokens, tagger);
 		String[] modTokens = replaceUnwantedTokens(tokens, tags, rakeParams);
@@ -43,15 +43,15 @@ public class RakeAlgorithm {
 		return getResult(keywords);
 	}
 	
-	private static String[] tokenize(String txtEl) {
+	private String[] tokenize(String txtEl) {
 		return SimpleTokenizer.INSTANCE.tokenize(txtEl);
 	}
 	
-	private static String[] tag(String[] tokens, POSTaggerME tagger) {
+	private String[] tag(String[] tokens, POSTaggerME tagger) {
 		return tagger.tag(tokens);
 	}
 	
-	private static String[] replaceUnwantedTokens(String[] tokens, String[] tags, RakeParams rakeParams) {
+	private String[] replaceUnwantedTokens(String[] tokens, String[] tags, RakeParams rakeParams) {
 		
 		for (int i = 0; i < tokens.length; i++) {
 			
@@ -65,12 +65,12 @@ public class RakeAlgorithm {
 		return tokens;
 	}
 	
-	public static ArrayList<Keyword> extractKeywords(String[] modTokens, RakeParams rakeParams) {
+	public ArrayList<Keyword> extractKeywords(String[] modTokens, RakeParams rakeParams) {
 		ArrayList<Keyword> keywords = idCandidateKeywords(modTokens, rakeParams);
 		return calcKeywordScores(keywords, rakeParams);
 	}
 	
-	private static ArrayList<Keyword> idCandidateKeywords(String[] tokens, RakeParams rakeParams) {
+	private ArrayList<Keyword> idCandidateKeywords(String[] tokens, RakeParams rakeParams) {
 		
 		ArrayList<Keyword> keywords = new ArrayList<Keyword>();
 		String cleanedTxt = collapseTokens(tokens);
@@ -101,7 +101,7 @@ public class RakeAlgorithm {
 		return keywords;
 	}
 	
-	private static String collapseTokens(String[] tokens) {
+	private String collapseTokens(String[] tokens) {
 		
 		StringBuilder fullBuff = new StringBuilder();
 		
@@ -114,7 +114,7 @@ public class RakeAlgorithm {
 		return fullBuff.toString();
 	}
 	
-	private static ArrayList<Keyword> calcKeywordScores(ArrayList<Keyword> candidateKeywords, RakeParams rakeParams) {
+	private ArrayList<Keyword> calcKeywordScores(ArrayList<Keyword> candidateKeywords, RakeParams rakeParams) {
 		 
 		 Map<String, Integer> wordfreq = new HashMap<String, Integer>();
 		 Map<String, Integer> worddegTemp = new HashMap<String, Integer>();
@@ -164,7 +164,7 @@ public class RakeAlgorithm {
 		 
 	}
 	
-	public static Result getResult(ArrayList<Keyword> keywords) {
+	public Result getResult(ArrayList<Keyword> keywords) {
 		
 		String[] full = new String[keywords.size()];
 		String[] stemmed = new String[keywords.size()];
