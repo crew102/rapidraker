@@ -14,15 +14,23 @@ rapidrake <- function(txt, stop_words = slowraker::smart_words,
 
   tagger_bin <- system.file("models/en-pos-maxent.bin", package = "openNLPdata")
 
-  rake_params <- rJava::.jnew(
-    "org.crew102.rapidrake.model.RakeParams",
+  rake_params <- rJava::new(
+    rJava::J("org.crew102.rapidrake.model.RakeParams"),
     stop_words, stop_pos, as.integer(word_min_char), stem
   )
 
-  rake_alg <- rJava::.jnew(
-    "org.crew102.rapidrake.RakeAlgorithm",
+  java_array_refs <- rJava::.jarray(txt)
+
+  rake_alg <- rJava::new(
+    rJava::J("org.crew102.rapidrake.RakeAlgorithm"),
     rake_params, tagger_bin
   )
 
-  # rJava::.jcall(obj = rake_alg, returnSig = "[S", method = "rake", txt, evalString = F)
+  for (i in seq_along(java_array_refs)) {
+
+    result <- rake_alg$rake(java_array_refs[[i]])
+
+    result$getFullKeywords()
+
+  }
 }
