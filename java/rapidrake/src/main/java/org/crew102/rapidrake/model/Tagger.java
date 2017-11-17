@@ -19,10 +19,8 @@ public class Tagger {
 	}
 	
 	public POSTaggerME getPosTagger() throws java.io.IOException {
-		InputStream modelIn2 = new FileInputStream(inputString);
-		
+		InputStream modelIn2 = new FileInputStream(inputString);	
 		File fi = new File(inputString);
-		System.out.println(fi.exists());
 		POSModel model2 = new POSModel(modelIn2);
 		return new POSTaggerME(model2);
 	}

@@ -4,7 +4,7 @@
 \alias{rapidrake}
 \title{Rapid RAKE}
 \usage{
-rapidrake(txt, stop_words = slowraker::smart_words, filter_pos = c("VB",
+rapidrake(txt, stop_words = slowraker::smart_words, stop_pos = c("VB",
   "VBD", "VBG", "VBN", "VBP", "VBZ"), word_min_char = 3, stem = TRUE)
 }
 \arguments{
@@ -17,6 +17,15 @@ words (equivalent to
 \href{https://rdrr.io/rforge/tm/man/stopwords.html}{tm::stopwords('SMART')})
 . Set \code{stop_words = NULL} if you don't want to remove stop words.}
 
+\item{stop_pos}{All words that have a part-of-speech (POS) that appears in
+\code{stop_pos} will be considered a stop word. \code{stop_pos} should be a
+vector of POS tags. All possible POS tags along with their definitions are
+in the \code{\link{pos_tags}} data frame (\code{View(slowraker::pos_tags)}).
+The default value is to remove all words that have a verb-based
+POS (i.e., \code{stop_pos = c("VB", "VBD", "VBG", "VBN", "VBP", "VBZ")}).
+Set \code{stop_pos = NULL} if you don't want a word's POS to matter during
+keyword extraction.}
+
 \item{word_min_char}{The minimum number of characters that a word must have
 to remain in the corpus. Words with fewer than \code{word_min_char}
 characters will be removed before the RAKE algorithm is applied. Note
@@ -27,5 +36,7 @@ its stem when choosing \code{word_min_char}.}
 \item{stem}{Do you want to stem the words before running RAKE?}
 }
 \description{
-A relatively fast version of the Rapid Automatic Keyword Extraction (RAKE) algorithm. See \href{http://media.wiley.com/product_data/excerpt/22/04707498/0470749822.pdf}{Automatic keyword extraction from individual documents} for details on how RAKE works.
+A relatively fast version of the Rapid Automatic Keyword Extraction (RAKE)
+algorithm. See \href{http://media.wiley.com/product_data/excerpt/22/04707498/0470749822.pdf}{Automatic keyword extraction from individual documents} for details on
+how RAKE works.
 }

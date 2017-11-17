@@ -161,7 +161,6 @@ public class RakeAlgorithm {
 		 }
 		 
 		 return candidateKeywords;
-		 
 	}
 	
 	public Result getResult(ArrayList<Keyword> keywords) {
