@@ -26,11 +26,42 @@ rapidrake <- function(txt, stop_words = slowraker::smart_words,
     rake_params, tagger_bin
   )
 
+  num_docs <- length(txt)
+  multi_docs <- num_docs != 1
+
+  if (multi_docs) {
+    prog_bar <- utils::txtProgressBar(min = 0, max = num_docs, style = 3)
+  }
+
+  all_out <- vector(mode = "list", length = num_docs)
+
   for (i in seq_along(java_array_refs)) {
 
     result <- rake_alg$rake(java_array_refs[[i]])
 
-    result$getFullKeywords()
+    all_out[[i]] <- process_keyword_df(
+      data.frame(
+        keyword = result$getFullKeywords(),
+        score = result$getScores(),
+        stem = result$getStemmedKeywords(),
+        stringsAsFactors = FALSE
+      )
+    )
 
+    if (multi_docs) {
+      utils::setTxtProgressBar(prog_bar, i)
+    }
   }
+
+  structure(all_out, class = c(class(all_out), "rakelist"))
+}
+
+process_keyword_df <- function(keyword_df) {
+  key_cnts <- table(keyword_df$keyword)
+  key_cntsdf <- as.data.frame(key_cnts, stringsAsFactors = FALSE)
+  colnames(key_cntsdf) <- c("keyword", "freq")
+  key_df <- merge(key_cntsdf, keyword_df, by = "keyword")
+  out_df <- unique(key_df[order(key_df$score, decreasing = TRUE), ])
+  row.names(out_df) <- NULL
+  out_df
 }
