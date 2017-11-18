@@ -59,6 +59,7 @@ public class RakeAlgorithm {
 			String oneTag = tags[i];
 						
 			if (rakeParams.getStopPOS().contains(oneTag) | oneToken.length() < rakeParams.getWordMinChar() | rakeParams.getStopWords().contains(oneToken)) {
+			if (rakeParams.getStopPOS().contains(oneTag) || oneToken.length() < rakeParams.getWordMinChar() || rakeParams.getStopWords().contains(oneToken)) {
 				tokens[i] = ".";
 			}
 		}
