@@ -44,7 +44,7 @@ public class RakeAlgorithm {
 	}
 	
 	private String[] tokenize(String txtEl) {
-		return SimpleTokenizer.INSTANCE.tokenize(txtEl);
+		return SimpleTokenizer.INSTANCE.tokenize(txtEl.toLowerCase());
 	}
 	
 	private String[] tag(String[] tokens, POSTaggerME tagger) {
