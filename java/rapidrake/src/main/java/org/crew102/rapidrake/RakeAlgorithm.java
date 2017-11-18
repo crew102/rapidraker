@@ -57,9 +57,11 @@ public class RakeAlgorithm {
 			
 			String oneToken = tokens[i];
 			String oneTag = tags[i];
-						
-			if (rakeParams.getStopPOS().contains(oneTag) | oneToken.length() < rakeParams.getWordMinChar() | rakeParams.getStopWords().contains(oneToken)) {
-			if (rakeParams.getStopPOS().contains(oneTag) || oneToken.length() < rakeParams.getWordMinChar() || rakeParams.getStopWords().contains(oneToken)) {
+			
+			Pattern anyWordChar = Pattern.compile("[a-z]");
+			boolean noAlphaChars = !anyWordChar.matcher(oneToken).find();
+			
+			if (rakeParams.getStopPOS().contains(oneTag) || oneToken.length() < rakeParams.getWordMinChar() || rakeParams.getStopWords().contains(oneToken) || noAlphaChars) {
 				tokens[i] = ".";
 			}
 		}
