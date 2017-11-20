@@ -67,7 +67,7 @@ public class RakeAlgorithm {
 		
 		ArrayList<Keyword> keywords = new ArrayList<Keyword>();
 		String cleanedTxt = collapseTokens(tokens);
-		String[] aryKey = cleanedTxt.split("[,.?():;\"-'/]");
+		String[] aryKey = cleanedTxt.split("[,.?():;\"-/]");
 		Pattern anyWordChar = Pattern.compile("[a-z]");
 		
 		for (int i = 0; i < aryKey.length; i++) {
