@@ -2,16 +2,14 @@ package org.crew102.rapidrake.model;
 
 import java.util.Map;
 
-// A Keyword is any n-gram that doesn't contain stop words/phrase delims
+// A Keyword is any n-gram that doesn't contain stop words/phrase delimiters
 
 public class Keyword {
 		
 	private String keyString; // e.g., "good dogs"
-	
 	private String[] keyStringAry; // e.g., {"good", "dogs"}
 	private String[] keyStemmedStringAry; // e.g., {"good", "dog"}
 	private String keyStemmedString; // e.g., "good dog"
-
 	private float score;
 	
 	public String[] getKeyStringAry() {
@@ -20,8 +18,6 @@ public class Keyword {
 	public String[] getKeyStemmedAry() {
 		return keyStemmedStringAry;
 	}
-	
-	/// 
 	public String getKeyString() {
 		return keyString;
 	}
@@ -36,7 +32,6 @@ public class Keyword {
 		this.keyString = keyString;
 		this.keyStringAry = keyStringAry;
 	}
-	
 	public Keyword(String keyString, String[] keyStringAry, String keyStemmedString, String[] keyStemmedStringAry) {
 		this.keyString = keyString;
 		this.keyStringAry = keyStringAry;

@@ -3,6 +3,8 @@ package org.crew102.rapidrake.model;
 import java.util.Arrays;
 import java.util.List;
 
+// A RakeParams object holds the various parameters the user can set when running RAKE
+
 public class RakeParams {
 	
 	private final List<String> stopWords;
@@ -15,12 +17,6 @@ public class RakeParams {
 		this.stopPOS = Arrays.asList(stopPOS);
 		this.wordMinChar = wordMinChar;
 		this.stem = stem;
-	}
-	public RakeParams() {
-		this.stopWords = Arrays.asList("i", "do", "be");
-		this.stopPOS = Arrays.asList("VB", "VBD", "VBG", "VBN", "VBP", "VBZ");
-		this.wordMinChar = 2;
-		this.stem = true;
 	}
 	
 	public List<String> getStopWords() {

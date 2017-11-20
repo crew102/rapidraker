@@ -5,36 +5,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.crew102.rapidrake.model.*;
-
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.stemmer.snowball.SnowballStemmer;
 import opennlp.tools.tokenize.SimpleTokenizer;
+import org.crew102.rapidrake.model.*;
+
+// A RakeAlgorithm object contains the major pieces of logic behind the RAKE algorithm. 
 
 public class RakeAlgorithm {
 	
 	private static RakeParams rakeParams;
-	
 	private static POSTaggerME tagger;
 	private static final SnowballStemmer stemmer = new SnowballStemmer(SnowballStemmer.ALGORITHM.ENGLISH);
 		
-	////
-	
 	public RakeAlgorithm(RakeParams rakeParams, String taggerModelUrl)  throws java.io.IOException {
 		RakeAlgorithm.rakeParams = rakeParams;
 		RakeAlgorithm.tagger = new Tagger(taggerModelUrl).getPosTagger();
 	}
 	
-	public RakeAlgorithm() throws java.io.IOException {
-		String[] stopWords = {"i", "do", "be"};
-		String[] stopPOS = {"VB", "VBD", "VBG", "VBN", "VBP", "VBZ"};
-		RakeAlgorithm.rakeParams = new RakeParams(stopWords, stopPOS, 2, true);
-		RakeAlgorithm.tagger = new Tagger().getPosTagger();
-	}
-	
-	////
-	
+	// Wrapper around major steps in algorithm
 	public Result rake(String txtEl) {
 		String[] tokens = tokenize(txtEl);
 		String[] tags = tag(tokens, tagger);
@@ -61,7 +50,8 @@ public class RakeAlgorithm {
 			Pattern anyWordChar = Pattern.compile("[a-z]");
 			boolean noAlphaChars = !anyWordChar.matcher(oneToken).find();
 			
-			if (rakeParams.getStopPOS().contains(oneTag) || oneToken.length() < rakeParams.getWordMinChar() || rakeParams.getStopWords().contains(oneToken) || noAlphaChars) {
+			if (rakeParams.getStopPOS().contains(oneTag) || oneToken.length() < rakeParams.getWordMinChar() || 
+					rakeParams.getStopWords().contains(oneToken) || noAlphaChars) {
 				tokens[i] = ".";
 			}
 		}
