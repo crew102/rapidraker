@@ -99,8 +99,13 @@ public class RakeAlgorithm {
 		StringBuilder fullBuff = new StringBuilder();
 		
 		for (int i = 0; i < tokens.length; i++) {
-			String atok = tokens[i];	
-			String toAdd = atok + " ";
+			String atok = tokens[i];
+			String toAdd;
+			if (i != tokens.length - 1) {
+				toAdd = atok + " ";
+			} else {
+				toAdd = atok;
+			}
 			fullBuff.append(toAdd);
 		}
 	
