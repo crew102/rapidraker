@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.stemmer.snowball.SnowballStemmer;
-import opennlp.tools.tokenize.SimpleTokenizer;
+import opennlp.tools.tokenize.WhitespaceTokenizer;
 import org.crew102.rapidrake.model.*;
 
 // A RakeAlgorithm object contains the major pieces of logic behind the RAKE algorithm. 
@@ -33,7 +33,9 @@ public class RakeAlgorithm {
 	}
 	
 	private String[] tokenize(String txtEl) {
-		return SimpleTokenizer.INSTANCE.tokenize(txtEl.toLowerCase());
+		// Have to pad punc chars with spaces, so that tokenizer doesn't combine words with punc chars.
+		String txtPadded = txtEl.replaceAll("([-,.?():;\"!/])", " $1 ");
+		return WhitespaceTokenizer.INSTANCE.tokenize(txtPadded.toLowerCase());
 	}
 	
 	private String[] tag(String[] tokens, POSTaggerME tagger) {
