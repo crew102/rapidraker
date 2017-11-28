@@ -11,12 +11,14 @@ public class RakeParams {
 	private final List<String> stopPOS;
 	private final int wordMinChar;
 	private final boolean stem;
+	private final String phraseDelims;
 	
-	public RakeParams(String[] stopWords, String[] stopPOS, int wordMinChar, boolean stem) {
+	public RakeParams(String[] stopWords, String[] stopPOS, int wordMinChar, boolean stem, String phraseDelims) {
 		this.stopWords = Arrays.asList(stopWords);
 		this.stopPOS = Arrays.asList(stopPOS);
 		this.wordMinChar = wordMinChar;
 		this.stem = stem;
+		this.phraseDelims = phraseDelims;
 	}
 	
 	public List<String> getStopWords() {
@@ -30,6 +32,9 @@ public class RakeParams {
 	}
 	public boolean shouldStem() {
 		return stem;
+	}
+	public String getPhraseDelmins() {
+		return phraseDelims;
 	}
 
 }
