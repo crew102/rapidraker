@@ -5,17 +5,14 @@ import java.io.InputStream;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 
+// A Tagger is a wrapper around POSTaggerME
+
 public class Tagger {
 	
 	private String inputString;
 	
-	// For when we pass URL of binary that is found in openNLPdata R package (i.e., when app is called from R)
 	public Tagger(String inputString) {
 		this.inputString = inputString;
-	}
-	// For when app is not called from R...You have to download en-pos-maxent.bin to model-bin before running app
-	public Tagger() {
-		this.inputString = "model-bin/en-pos-maxent.bin";
 	}
 	
 	public POSTaggerME getPosTagger() throws java.io.IOException {
