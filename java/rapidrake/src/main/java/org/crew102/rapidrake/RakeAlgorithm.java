@@ -26,9 +26,9 @@ public class RakeAlgorithm {
 	// Wrapper around major steps in algorithm
 	public Result rake(String txtEl) {
 		String[] tokens = tokenize(txtEl);
-		String[] tags = tag(tokens, tagger);
-		String[] modTokens = replaceUnwantedTokens(tokens, tags, rakeParams);
-		ArrayList<Keyword> keywords = extractKeywords(modTokens, rakeParams);
+		String[] tags = tag(tokens);
+		String[] modTokens = replaceUnwantedTokens(tokens, tags);
+		ArrayList<Keyword> keywords = extractKeywords(modTokens);
 		return getResult(keywords);
 	}
 	
@@ -38,11 +38,11 @@ public class RakeAlgorithm {
 		return WhitespaceTokenizer.INSTANCE.tokenize(txtPadded.toLowerCase());
 	}
 	
-	private String[] tag(String[] tokens, POSTaggerME tagger) {
+	private String[] tag(String[] tokens) {
 		return tagger.tag(tokens);
 	}
 	
-	private String[] replaceUnwantedTokens(String[] tokens, String[] tags, RakeParams rakeParams) {
+	private String[] replaceUnwantedTokens(String[] tokens, String[] tags) {
 		
 		for (int i = 0; i < tokens.length; i++) {
 			
@@ -60,12 +60,12 @@ public class RakeAlgorithm {
 		return tokens;
 	}
 	
-	public ArrayList<Keyword> extractKeywords(String[] modTokens, RakeParams rakeParams) {
-		ArrayList<Keyword> keywords = idCandidateKeywords(modTokens, rakeParams);
-		return calcKeywordScores(keywords, rakeParams);
+	public ArrayList<Keyword> extractKeywords(String[] modTokens) {
+		ArrayList<Keyword> keywords = idCandidateKeywords(modTokens);
+		return calcKeywordScores(keywords);
 	}
 	
-	private ArrayList<Keyword> idCandidateKeywords(String[] tokens, RakeParams rakeParams) {
+	private ArrayList<Keyword> idCandidateKeywords(String[] tokens) {
 		
 		ArrayList<Keyword> keywords = new ArrayList<Keyword>();
 		String cleanedTxt = collapseTokens(tokens);
@@ -114,7 +114,7 @@ public class RakeAlgorithm {
 		return fullBuff.toString();
 	}
 	
-	private ArrayList<Keyword> calcKeywordScores(ArrayList<Keyword> candidateKeywords, RakeParams rakeParams) {
+	private ArrayList<Keyword> calcKeywordScores(ArrayList<Keyword> candidateKeywords) {
 		 
 		 Map<String, Integer> wordfreq = new HashMap<String, Integer>();
 		 Map<String, Integer> worddegTemp = new HashMap<String, Integer>();
