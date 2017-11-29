@@ -16,9 +16,23 @@ public class Tagger {
 	}
 	
 	public POSTaggerME getPosTagger() throws java.io.IOException {
-		InputStream modelIn2 = new FileInputStream(inputString);	
-		POSModel model2 = new POSModel(modelIn2);
-		return new POSTaggerME(model2);
+		InputStream modelIn = null;
+		POSModel modelIn2 = null;
+		try {
+			modelIn = new FileInputStream(inputString);
+			modelIn2 = new POSModel(modelIn);
+		} catch(java.io.IOException ex) {
+			throw new java.io.IOException("Couldn't find POS model based on URL", ex);
+		} finally {
+			if (modelIn != null) {
+				try {
+					modelIn.close();
+				} catch(java.io.IOException ex2) {
+					throw new java.io.IOException(ex2);
+				}
+			}
+		}
+		return new POSTaggerME(modelIn2);
 	}
 		
 }
