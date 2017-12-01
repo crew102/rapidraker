@@ -10,20 +10,46 @@ import opennlp.tools.stemmer.snowball.SnowballStemmer;
 import opennlp.tools.tokenize.WhitespaceTokenizer;
 import org.crew102.rapidrake.model.*;
 
-// A RakeAlgorithm object contains the major pieces of logic behind the RAKE algorithm. 
+/**
+ * The logic/implementation of the Rapid Automatic Keyword Extraction (RAKE) algorithm. The class's API includes:
+ * <ul>
+ * <li> A constructor which initializes the algorithm's parameters (stored in a {@link RakeParams} object) as well as
+ * 		a POS tagger.
+ * <li> The {@link rake} method, which runs RAKE on a single document/string
+ * <li> The {@link getResult} method, which takes an array of {@link Keyword} objects and converts their relevant 
+ * 		instance variables to primitive arrays (i.e., to a {@link Result}). This allows the results to be easily pulled 
+ * 		out on the R side. 
+ * </ul> 
+ * 
+ * @author Chris Baker
+ */
 
 public class RakeAlgorithm {
 	
 	private static RakeParams rakeParams;
 	private static POSTaggerME tagger;
 	private static final SnowballStemmer stemmer = new SnowballStemmer(SnowballStemmer.ALGORITHM.ENGLISH);
-		
-	public RakeAlgorithm(RakeParams rakeParams, String taggerModelUrl)  throws java.io.IOException {
+	
+    /**
+     * Constructor.
+     *
+     * @param rakeParams the parameters that RAKE will use
+     * @param taggerModelUrl a string with the URL of the trained POS tagging model
+     * @see RakeParams
+     */
+	public RakeAlgorithm(RakeParams rakeParams, String taggerModelUrl) throws java.io.IOException {
 		RakeAlgorithm.rakeParams = rakeParams;
 		RakeAlgorithm.tagger = new Tagger(taggerModelUrl).getPosTagger();
 	}
 	
-	// Wrapper around major steps in algorithm
+    /**
+     * Run RAKE on a single document/string.
+     *
+     * @param txtEl a string containing the document's free-form text
+     * @return A data container containing the results of RAKE (the keywords in their full form and stemmed form, as 
+     * 		   well as their scores)
+     * @see Result
+     */
 	public Result rake(String txtEl) {
 		String[] tokens = tokenize(txtEl);
 		String[] tags = tag(tokens);
@@ -163,6 +189,15 @@ public class RakeAlgorithm {
 		 return candidateKeywords;
 	}
 	
+	/**
+	 * Convert a list of keywords to a {@link Result}
+	 * 
+	 * @param keywords a list of extracted keywords
+	 * @return A data object containing the results of RAKE (the keywords in their full form and stemmed form, as 
+     * 		   well as their scores)
+     * @see Keyword
+     * @see Result
+	 */
 	public Result getResult(ArrayList<Keyword> keywords) {
 		
 		String[] full = new String[keywords.size()];
