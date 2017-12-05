@@ -6,16 +6,18 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import opennlp.tools.postag.POSTaggerME;
+import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.stemmer.snowball.SnowballStemmer;
 import opennlp.tools.tokenize.WhitespaceTokenizer;
 import org.crew102.rapidrake.model.*;
 
 /**
  * The logic/implementation of the Rapid Automatic Keyword Extraction (RAKE) algorithm. The class's API includes:
+ * 
  * <ul>
- * <li> A constructor which initializes the algorithm's parameters (stored in a {@link RakeParams} object) as well as
- * 		a POS tagger.
- * <li> The {@link rake} method, which runs RAKE on a single document/string
+ * <li> A constructor which initializes the algorithm's parameters (stored in a {@link RakeParams} object), a POS 
+ * 		tagger, and a sentence detector
+ * <li> The {@link rake} method, which runs RAKE on a single string
  * <li> The {@link getResult} method, which takes an array of {@link Keyword} objects and converts their relevant 
  * 		instance variables to primitive arrays (i.e., to a {@link Result}). This allows the results to be easily pulled 
  * 		out on the R side. 
@@ -28,69 +30,72 @@ public class RakeAlgorithm {
 	
 	private static RakeParams rakeParams;
 	private static POSTaggerME tagger;
+	private static SentenceDetectorME sentDetector;
 	private static final SnowballStemmer stemmer = new SnowballStemmer(SnowballStemmer.ALGORITHM.ENGLISH);
 	
     /**
      * Constructor.
      *
      * @param rakeParams the parameters that RAKE will use
-     * @param taggerModelUrl a string with the URL of the trained POS tagging model
+     * @param taggerModelUrl the URL of the trained POS tagging model
+     * @param sentDectModelUrl the URL of the trained sentence detection model
      * @see RakeParams
      */
-	public RakeAlgorithm(RakeParams rakeParams, String taggerModelUrl) throws java.io.IOException {
+	public RakeAlgorithm(RakeParams rakeParams, String taggerModelUrl, String sentDectModelUrl) throws java.io.IOException {
 		RakeAlgorithm.rakeParams = rakeParams;
 		RakeAlgorithm.tagger = new Tagger(taggerModelUrl).getPosTagger();
+		RakeAlgorithm.sentDetector = new SentDetector(sentDectModelUrl).getSentDetector();
 	}
 	
     /**
      * Run RAKE on a single document/string.
      *
-     * @param txtEl a string containing the document's free-form text
+     * @param txtEl a string with the text that you want to run RAKE on
      * @return A data container containing the results of RAKE (the keywords in their full form and stemmed form, as 
      * 		   well as their scores)
      * @see Result
      */
 	public Result rake(String txtEl) {
-		String[] tokens = tokenize(txtEl);
-		String[] tags = tag(tokens);
-		String[] modTokens = replaceUnwantedTokens(tokens, tags);
-		ArrayList<Keyword> keywords = extractKeywords(modTokens);
-		return getResult(keywords);
+		String[] tokens = getTokens(txtEl);
+		ArrayList<Keyword> keywords = idCandidateKeywords(tokens);
+		ArrayList<Keyword> keywords2 = calcKeywordScores(keywords);		
+		return getResult(keywords2);
 	}
 	
-	private String[] tokenize(String txtEl) {
+	private String[] getTokens(String txtEl) {
+		
 		// Have to pad punc chars with spaces, so that tokenizer doesn't combine words with punc chars.
 		String txtPadded = txtEl.replaceAll("([-,.?():;\"!/])", " $1 ");
-		return WhitespaceTokenizer.INSTANCE.tokenize(txtPadded.toLowerCase());
-	}
-	
-	private String[] tag(String[] tokens) {
-		return tagger.tag(tokens);
-	}
-	
-	private String[] replaceUnwantedTokens(String[] tokens, String[] tags) {
+		String[] sents = sentDetector.sentDetect(txtPadded);
 		
-		for (int i = 0; i < tokens.length; i++) {
+		ArrayList<String> tokenList = new ArrayList<String>();
+		Pattern anyWordChar = Pattern.compile("[a-z]");
+				
+		for (String sentence : sents) {
 			
-			String oneToken = tokens[i];
-			String oneTag = tags[i];
+			String[] whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(sentence);
+			String[] tags = tagger.tag(whitespaceTokenizerLine);
 			
-			Pattern anyWordChar = Pattern.compile("[a-z]");
-			boolean noAlphaChars = !anyWordChar.matcher(oneToken).find();
-			
-			if (rakeParams.getStopPOS().contains(oneTag) || oneToken.length() < rakeParams.getWordMinChar() || 
-					rakeParams.getStopWords().contains(oneToken) || noAlphaChars) {
-				tokens[i] = ".";
+			for (int i = 0; i < whitespaceTokenizerLine.length; i++) {
+				
+				String token = whitespaceTokenizerLine[i].trim().toLowerCase();
+				String tag = tags[i].trim();
+				boolean noAlphaChars = !anyWordChar.matcher(token).find();
+				
+				if (rakeParams.getStopPOS().contains(tag) || token.length() < rakeParams.getWordMinChar() || 
+						rakeParams.getStopWords().contains(token) || noAlphaChars) {
+					String repToken = ".";
+					tokenList.add(repToken);
+				} else {
+					tokenList.add(token);
+				}
 			}
 		}
-		return tokens;
+		
+		String[] tokens = new String[tokenList.size()];
+		return tokenList.toArray(tokens);
 	}
-	
-	public ArrayList<Keyword> extractKeywords(String[] modTokens) {
-		ArrayList<Keyword> keywords = idCandidateKeywords(modTokens);
-		return calcKeywordScores(keywords);
-	}
-	
+
 	private ArrayList<Keyword> idCandidateKeywords(String[] tokens) {
 		
 		ArrayList<Keyword> keywords = new ArrayList<Keyword>();
@@ -190,11 +195,10 @@ public class RakeAlgorithm {
 	}
 	
 	/**
-	 * Convert a list of keywords to a {@link Result}
+	 * Convert a list of keywords to a {@link Result}.
 	 * 
 	 * @param keywords a list of extracted keywords
-	 * @return A data object containing the results of RAKE (the keywords in their full form and stemmed form, as 
-     * 		   well as their scores)
+	 * @return A data object containing the results of RAKE
      * @see Keyword
      * @see Result
 	 */
