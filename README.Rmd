@@ -40,7 +40,7 @@ devtools::install_github("crew102/rapidraker")
 
 ## What is `rapidraker`?
 
-`rapidraker` is an R package that provides an implementation of the same keyword extraction algorihtm (RAKE) that the `slowraker` package does. However, `rapidraker::rapidrake()` is written mostly in Java, whereas `slowraker::slowrake()` is written mostly in R. This means that you can expect `rapidrake()` to be considerably faster than `slowrake()`.
+`rapidraker` is an R package that provides an implementation of the same keyword extraction algorihtm (RAKE) as `slowraker`. However, `rapidraker::rapidrake()` is written in Java, whereas `slowraker::slowrake()` is written in R. This means that you can expect `rapidrake()` to be considerably faster than `slowrake()`.
 
 ## Usage
 
@@ -80,4 +80,4 @@ head(rakedf, 5)
 
 ## Learning more
 
-* To learn more about the API used by both `slowraker` and `rapidraker`, head over `slowraker`'s [webpage](https://crew102.github.io/slowraker/index.html).
+* To learn more about the API used by both `slowraker` and `rapidraker`, head over to `slowraker`'s [webpage](https://crew102.github.io/slowraker/index.html).

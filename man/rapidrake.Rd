@@ -35,10 +35,14 @@ so you should consider the full length of the word and not the length of
 its stem when choosing \code{word_min_char}.}
 
 \item{stem}{Do you want to stem the words before running RAKE?}
+
+\item{phrase_delims}{A regular expression containing the characters that
+will be used as phrase delimiters.}
 }
 \description{
 A relatively fast version of the Rapid Automatic Keyword Extraction (RAKE)
-algorithm. See \href{http://media.wiley.com/product_data/excerpt/22/04707498/0470749822.pdf}{Automatic keyword extraction from individual documents} for details on how RAKE works.
+algorithm. See \href{http://media.wiley.com/product_data/excerpt/22/04707498/0470749822.pdf}{Automatic keyword extraction from individual documents} for details on how RAKE
+works.
 }
 \examples{
 rapidrake(txt = "some text that has great keywords")

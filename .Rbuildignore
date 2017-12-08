@@ -10,3 +10,4 @@
 ^cran-comments\.md$
 ^makefile$
 ^inst/make-helpers.R$
+^TODO\.md$
