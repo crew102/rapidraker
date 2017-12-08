@@ -17,7 +17,7 @@ import org.crew102.rapidrake.model.*;
  * <ul>
  * <li> A constructor which initializes the algorithm's parameters (stored in a {@link RakeParams} object), a POS 
  * 		tagger, and a sentence detector
- * <li> The {@link rake} method, which runs RAKE on a single string
+ * <li> The {@link rake} method, which runs RAKE on a string
  * <li> The {@link getResult} method, which takes an array of {@link Keyword} objects and converts their relevant 
  * 		instance variables to primitive arrays (i.e., to a {@link Result}). This allows the results to be easily pulled 
  * 		out on the R side. 
@@ -25,7 +25,6 @@ import org.crew102.rapidrake.model.*;
  * 
  * @author Chris Baker
  */
-
 public class RakeAlgorithm {
 	
 	private static RakeParams rakeParams;
@@ -48,10 +47,10 @@ public class RakeAlgorithm {
 	}
 	
     /**
-     * Run RAKE on a single document/string.
+     * Run RAKE on a single string.
      *
      * @param txtEl a string with the text that you want to run RAKE on
-     * @return A data container containing the results of RAKE (the keywords in their full form and stemmed form, as 
+     * @return a data object containing the results of RAKE (the keywords in their full form and stemmed form, as 
      * 		   well as their scores)
      * @see Result
      */
@@ -64,31 +63,31 @@ public class RakeAlgorithm {
 	
 	private String[] getTokens(String txtEl) {
 		
-		// Have to pad punc chars with spaces, so that tokenizer doesn't combine words with punc chars.
+		// Have to pad punctuation chars with spaces so that tokenizer doesn't combine words with punctuation chars
 		String txtPadded = txtEl.replaceAll("([-,.?():;\"!/])", " $1 ");
-		String[] sents = sentDetector.sentDetect(txtPadded);
 		
 		ArrayList<String> tokenList = new ArrayList<String>();
 		Pattern anyWordChar = Pattern.compile("[a-z]");
+		
+		String[] sents = sentDetector.sentDetect(txtPadded);
 				
 		for (String sentence : sents) {
 			
-			String[] whitespaceTokenizerLine = WhitespaceTokenizer.INSTANCE.tokenize(sentence);
-			String[] tags = tagger.tag(whitespaceTokenizerLine);
+			String[] tokenArray = WhitespaceTokenizer.INSTANCE.tokenize(sentence);
+			String[] tags = tagger.tag(tokenArray);
 			
-			for (int i = 0; i < whitespaceTokenizerLine.length; i++) {
+			for (int i = 0; i < tokenArray.length; i++) {
 				
-				String token = whitespaceTokenizerLine[i].trim().toLowerCase();
+				String token = tokenArray[i].trim().toLowerCase();
 				String tag = tags[i].trim();
-				boolean noAlphaChars = !anyWordChar.matcher(token).find();
 				
+				// replace unwanted tokens with a period, which we can be confident will be used as a delimiter
 				if (rakeParams.getStopPOS().contains(tag) || token.length() < rakeParams.getWordMinChar() || 
-						rakeParams.getStopWords().contains(token) || noAlphaChars) {
-					String repToken = ".";
-					tokenList.add(repToken);
-				} else {
-					tokenList.add(token);
+						rakeParams.getStopWords().contains(token) || !anyWordChar.matcher(token).find()) {
+					token = ".";
 				}
+				
+				tokenList.add(token);
 			}
 		}
 		

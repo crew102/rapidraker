@@ -5,12 +5,17 @@ import java.io.InputStream;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 
-// A Tagger is a wrapper around POSTaggerME
-
+/**
+ * A wrapper around  opennlp.tools.postag.POSTaggerME.
+ */
 public class Tagger {
 	
 	private String inputString;
 	
+	/**
+	 * Constructor.
+	 * @param inputString the URL of a POS tagging model
+	 */
 	public Tagger(String inputString) {
 		this.inputString = inputString;
 	}

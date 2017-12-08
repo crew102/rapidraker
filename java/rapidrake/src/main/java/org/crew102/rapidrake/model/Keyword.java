@@ -2,14 +2,15 @@ package org.crew102.rapidrake.model;
 
 import java.util.Map;
 
-// A Keyword is any n-gram that doesn't contain stop words/phrase delimiters
-
+/**
+ * An n-gram that doesn't contain stop words or phrase delimiters.
+ */
 public class Keyword {
 		
-	private String keyString; // e.g., "good dogs"
-	private String[] keyStringAry; // e.g., {"good", "dogs"}
-	private String[] keyStemmedStringAry; // e.g., {"good", "dog"}
-	private String keyStemmedString; // e.g., "good dog"
+	private String keyString; 
+	private String[] keyStringAry; 
+	private String[] keyStemmedStringAry; 
+	private String keyStemmedString; 
 	private float score;
 	
 	public String[] getKeyStringAry() {
@@ -28,17 +29,33 @@ public class Keyword {
 		return score;
 	}
 	
-	public Keyword(String keyString, String[] keyStringAry) {
-		this.keyString = keyString;
-		this.keyStringAry = keyStringAry;
-	}
+	/**
+	 * Constructor.
+	 * 
+	 * @param keyString the full form (i.e., not tokenized) version of the keyword (e.g., "good dogs")
+	 * @param keyStringAry the tokenized version of the keyword (e.g., {"good", "dogs"})
+	 * @param keyStemmedString the stemmed version of <code>keyString</code> (e.g., "good dogs")
+	 * @param keyStemmedStringAry the stemmed version of <code>keyStringAry</code> (e.g., {"good", "dog"})
+	 */
 	public Keyword(String keyString, String[] keyStringAry, String keyStemmedString, String[] keyStemmedStringAry) {
 		this.keyString = keyString;
 		this.keyStringAry = keyStringAry;
 		this.keyStemmedString = keyStemmedString;
 		this.keyStemmedStringAry = keyStemmedStringAry;
 	}
+	public Keyword(String keyString, String[] keyStringAry) {
+		this.keyString = keyString;
+		this.keyStringAry = keyStringAry;
+	}
 	
+	/**
+	 * Sum the scores of each token belonging to a given keyword.
+	 * 
+	 * @param scoreVec a document-level collection of key-value pairs, where the keys are the distinct tokens across all 
+	 * 		  keywords and the values are the document-level scores that are associated with them
+	 * @param rakeParams the parameters that RAKE will use
+	 * @see RakeParams
+	 */
 	public void sumScore(Map<String, Float> scoreVec, RakeParams rakeParams) {
 		
 		String[] ary;
@@ -50,8 +67,8 @@ public class Keyword {
 		
 		float sum = 0;
 		for (int i = 0; i < ary.length; i++) {
-			String oneToke = ary[i];
-			float val = scoreVec.get(oneToke);
+			String oneToken = ary[i];
+			float val = scoreVec.get(oneToken);
 			sum = val + sum;
 		}
 		score = sum;

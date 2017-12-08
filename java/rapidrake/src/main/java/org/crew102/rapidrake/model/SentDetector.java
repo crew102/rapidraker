@@ -5,10 +5,17 @@ import java.io.InputStream;
 import opennlp.tools.sentdetect.SentenceModel;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 
+/**
+ * A wrapper around opennlp.tools.sentdetect.SentenceDetectorME.
+ */
 public class SentDetector {
 	
 	private String inputString;
 	
+	/**
+	 * Constructor.
+	 * @param inputString the URL of a sentence detection model
+	 */
 	public SentDetector(String inputString) {
 		this.inputString = inputString;
 	}
