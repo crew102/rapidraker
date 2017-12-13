@@ -21,7 +21,11 @@ rapidrake <- function(txt,
 
   rake_params <- rJava::new(
     rJava::J("org.crew102.rapidrake.model.RakeParams"),
-    stop_words, stop_pos, as.integer(word_min_char), stem, phrase_delims
+    rJava::.jcastToArray(empty_if_null(stop_words)),
+    rJava::.jcastToArray(empty_if_null(stop_pos)),
+    as.integer(word_min_char),
+    stem,
+    phrase_delims
   )
 
   java_array_refs <- rJava::.jarray(txt)
@@ -62,6 +66,7 @@ rapidrake <- function(txt,
 }
 
 process_keyword_df <- function(keyword_df) {
+  if (nrow(keyword_df) == 0) return(NA)
   key_cnts <- table(keyword_df$keyword)
   key_cntsdf <- as.data.frame(key_cnts, stringsAsFactors = FALSE)
   colnames(key_cntsdf) <- c("keyword", "freq")
@@ -70,3 +75,5 @@ process_keyword_df <- function(keyword_df) {
   row.names(out_df) <- NULL
   out_df
 }
+
+empty_if_null <- function(x) if (is.null(x)) "" else x
