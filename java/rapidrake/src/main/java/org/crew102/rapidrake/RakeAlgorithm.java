@@ -81,9 +81,11 @@ public class RakeAlgorithm {
 				String token = tokenArray[i].trim().toLowerCase();
 				String tag = tags[i].trim();
 				
-				// replace unwanted tokens with a period, which we can be confident will be used as a delimiter
-				if (rakeParams.getStopPOS().contains(tag) || token.length() < rakeParams.getWordMinChar() || 
+				if (token.matches("\\p{Punct}")) {
+					// if the token is punctuation char, leave it
+				} else if (rakeParams.getStopPOS().contains(tag) || token.length() < rakeParams.getWordMinChar() || 
 						rakeParams.getStopWords().contains(token) || !anyWordChar.matcher(token).find()) {
+					// replace unwanted tokens with a period, which we can be confident will be used as a delimiter
 					token = ".";
 				}
 				
