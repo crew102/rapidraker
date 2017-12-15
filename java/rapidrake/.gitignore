@@ -1,2 +1,5 @@
 target/
 model-bin/
+.classpath
+.project
+.settings/
