@@ -20,8 +20,8 @@ doc:
 	Rscript -e "devtools::document(); source('inst/make-helpers.R')"
 
 # Test package
-test:
-	Rscript -e "devtools::test()"
+check:
+		Rscript -e "devtools::check()"
 
 # Clean
 clean:
@@ -29,5 +29,5 @@ clean:
 	rm -rf inst/java
 
 # Build binary
-cran:
+build:
 	cd ..; R CMD INSTALL rapidraker --build --no-multiarch
