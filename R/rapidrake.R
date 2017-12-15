@@ -16,9 +16,6 @@ rapidrake <- function(txt,
                       stem = TRUE,
                       phrase_delims = "[-,.?():;\"!/]") {
 
-  tagger_bin <- system.file("models/en-pos-maxent.bin", package = "openNLPdata")
-  sent_bin <- system.file("models/en-sent.bin", package = "openNLPdata")
-
   rake_params <- rJava::new(
     rJava::J("org.crew102.rapidrake.model.RakeParams"),
     rJava::.jcastToArray(empty_if_null(stop_words)),
@@ -32,7 +29,9 @@ rapidrake <- function(txt,
 
   rake_alg <- rJava::new(
     rJava::J("org.crew102.rapidrake.RakeAlgorithm"),
-    rake_params, tagger_bin, sent_bin
+    rake_params,
+    system.file("models/en-pos-maxent.bin", package = "openNLPdata"),
+    system.file("models/en-sent.bin", package = "openNLPdata")
   )
 
   num_docs <- length(txt)
