@@ -15,6 +15,7 @@ addons:
     packages:
       - openjdk-7-jdk
       - maven
+      - r-base-dev
 
 before_install:
   - sudo R CMD javareconf
