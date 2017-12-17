@@ -1,15 +1,16 @@
-package org.crew102.rapidrake;
+package io.github.crew102.rapidrake;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import io.github.crew102.rapidrake.model.*;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.stemmer.snowball.SnowballStemmer;
 import opennlp.tools.tokenize.WhitespaceTokenizer;
-import org.crew102.rapidrake.model.*;
 
 /**
  * The logic/implementation of the Rapid Automatic Keyword Extraction (RAKE) algorithm. The class's API includes:
@@ -45,6 +46,8 @@ public class RakeAlgorithm {
 		RakeAlgorithm.tagger = new Tagger(taggerModelUrl).getPosTagger();
 		RakeAlgorithm.sentDetector = new SentDetector(sentDectModelUrl).getSentDetector();
 	}
+	
+	// add constructor that doesn't require urls
 	
     /**
      * Run RAKE on a single string.

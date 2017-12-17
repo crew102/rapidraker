@@ -1,4 +1,4 @@
-package org.crew102.rapidrake.model;
+package io.github.crew102.rapidrake.model;
 
 /**
  * A data object containing the results of running RAKE on a single document. After instantiating a Result

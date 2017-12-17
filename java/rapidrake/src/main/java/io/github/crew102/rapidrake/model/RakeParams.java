@@ -1,4 +1,4 @@
-package org.crew102.rapidrake.model;
+package io.github.crew102.rapidrake.model;
 
 import java.util.Arrays;
 import java.util.List;

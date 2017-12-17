@@ -17,7 +17,7 @@ rapidrake <- function(txt,
                       phrase_delims = "[-,.?():;\"!/]") {
 
   rake_params <- rJava::new(
-    rJava::J("org.crew102.rapidrake.model.RakeParams"),
+    rJava::J("io.github.crew102.rapidrake.model.RakeParams"),
     rJava::.jcastToArray(empty_if_null(stop_words)),
     rJava::.jcastToArray(empty_if_null(stop_pos)),
     as.integer(word_min_char),
@@ -28,7 +28,7 @@ rapidrake <- function(txt,
   java_array_refs <- rJava::.jarray(txt)
 
   rake_alg <- rJava::new(
-    rJava::J("org.crew102.rapidrake.RakeAlgorithm"),
+    rJava::J("io.github.crew102.rapidrake.RakeAlgorithm"),
     rake_params,
     system.file("models/en-pos-maxent.bin", package = "openNLPdata"),
     system.file("models/en-sent.bin", package = "openNLPdata")
