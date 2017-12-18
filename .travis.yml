@@ -1,22 +1,16 @@
-language: R
 sudo: required
-
-matrix:
-  include:
-  - r: oldrel
-  - r: release
-  - r: devel
 
 notifications:
   email: false
 
-addons:
-  apt:
-    packages:
-      - openjdk-7-jdk
-      - maven
-      - r-base-dev
+services:
+  - docker
 
 before_install:
-  - sudo R CMD javareconf
-  - make build-jar
+  - docker build -t rapidraker-image .
+
+script:
+  - docker run -v `pwd`/rapidraker.Rcheck:/home/rapidraker.Rcheck rapidraker-image /bin/bash -c 'cd .. && R CMD build rapidraker && R CMD check $(ls | grep "tar\\.gz") --as-cran --no-manual'
+
+after_script:
+  - cat rapidraker.Rcheck/`ls rapidraker.Rcheck | grep "\\.log"`
