@@ -1,6 +1,6 @@
 all: build-jar doc README.md install-package test
 
-# Build java jars and move into inst/java
+# Build java jars and move into inst/java (also runs tests on Java side)
 build-jar:
 	$(MAKE) -C ../rapidrake-java
 	rm -rf inst/java
@@ -21,6 +21,7 @@ README.md: README.Rmd
 doc:
 	Rscript -e "devtools::document(); source('inst/make-doc-helpers.R')"
 
+# Run R tests
 test:
 	Rscript -e "devtools::test()"
 
@@ -28,3 +29,6 @@ test:
 clean:
 	rm README.md
 	rm -rf inst/java
+
+cran:
+	Rscript -e "source('inst/make-classpath-helpers.R')"
