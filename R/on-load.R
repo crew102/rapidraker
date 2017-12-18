@@ -1,4 +1,5 @@
 .onLoad <- function(libname, pkgname) {
   rJava::.jpackage(pkgname, lib.loc = libname)
-  # rJava::.jaddClassPath(list.files('inst/java', full.names = TRUE))
+  ### need to drop this line for cran:
+  rJava::.jaddClassPath(list.files('inst/java', full.names = TRUE))
 }

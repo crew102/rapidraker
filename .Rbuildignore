@@ -11,3 +11,4 @@
 ^makefile$
 ^inst/make-helpers.R$
 ^TODO\.md$
+^java/rapidrake/$

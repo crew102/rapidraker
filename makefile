@@ -1,15 +1,16 @@
-all: build-jar doc test README.md install-package
+all: build-jar doc README.md install-package test
 
 # Build java jars and move into inst/java
-build-jar: $(/usr/bin/find java -type f -iname "*\.java") java/rapidrake/pom.xml
-	$(MAKE) -C java/rapidrake
+build-jar:
+	$(MAKE) -C ../rapidrake-java
 	rm -rf inst/java
 	mkdir -p inst/java
-	cp java/rapidrake/target/*.jar inst/java
+	cp ../rapidrake-java/target/*\.jar inst/java
 
 # Install package locally
 install-package:
-	cd ..; R CMD INSTALL rapidraker --no-multiarch
+	cd ..; R CMD INSTALL rapidraker --build --no-multiarch
+	cd ..; R CMD INSTALL rapidraker*\.zip --no-multiarch
 
 # Render README.Rmd to README.md
 README.md: README.Rmd
@@ -19,15 +20,10 @@ README.md: README.Rmd
 doc:
 	Rscript -e "devtools::document(); source('inst/make-helpers.R')"
 
-# Test package
-check:
-		Rscript -e "devtools::check()"
+test:
+	Rscript -e "devtools::test()"
 
 # Clean
 clean:
 	rm README.md
 	rm -rf inst/java
-
-# Build binary
-build:
-	cd ..; R CMD INSTALL rapidraker --build --no-multiarch
