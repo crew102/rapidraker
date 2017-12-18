@@ -19,18 +19,10 @@ options(digits = 2)
 > A fast version of the Rapid Automatic Keyword Extraction (RAKE) algorithm
 
 [![Linux Build Status](https://travis-ci.org/crew102/rapidraker.svg?branch=master)](https://travis-ci.org/crew102/rapidraker) 
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/o8nxlmteivknib4d?svg=true
-)](https://ci.appveyor.com/project/crew102/rapidraker)
 
 ## Installation
 
-You can get the stable version from CRAN:
-
-```r
-install.packages("rapidraker")
-```
-
-Or the development version from GitHub:
+You can currently get the development verison from Github:
 
 ```r
 if (!require(devtools)) install.packages("devtools")
