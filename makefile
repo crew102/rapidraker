@@ -19,7 +19,7 @@ README.md: README.Rmd
 
 # Document package
 doc:
-	Rscript -e "devtools::document(); source('inst/make-helpers.R')"
+	Rscript -e "devtools::document(); source('inst/make-doc-helpers.R')"
 
 test:
 	Rscript -e "devtools::test()"

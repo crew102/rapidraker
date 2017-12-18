@@ -9,7 +9,7 @@
 ^NEWS\.md$
 ^cran-comments\.md$
 ^makefile$
-^inst/make-helpers.R$
+^inst/make-doc-helpers.R$
 ^TODO\.md$
 ^java/rapidrake/$
 ^dockerfile$
