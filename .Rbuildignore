@@ -13,4 +13,3 @@
 ^TODO\.md$
 ^java/rapidrake/$
 ^dockerfile$
-^inst/make-classpath-helpers.R$
