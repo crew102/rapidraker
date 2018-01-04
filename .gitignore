@@ -2,6 +2,4 @@
 .Rhistory
 .RData
 .Ruserdata
-inst/dev.R
-inst/java/
 java/rapidrake/
