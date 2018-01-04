@@ -66,7 +66,7 @@ rakelist
 You can bind these data frames together using `slowaker::rbind_rakelist()`:
 
 ```{r}
-rakedf <- rbind_rakelist(rakelist = rakelist, doc_id = dog_pubs$doi[1:5])
+rakedf <- rbind_rakelist(rakelist, doc_id = dog_pubs$doi[1:5])
 head(rakedf, 5)
 ```
 

@@ -1,8 +1,7 @@
 #' Rapid RAKE
 #'
 #' A relatively fast version of the Rapid Automatic Keyword Extraction (RAKE)
-#' algorithm. See \href{http://media.wiley.com/product_data/excerpt/22/04707498/0470749822.pdf}{Automatic keyword extraction from individual documents} for details on how RAKE
-#' works.
+#' algorithm. See \href{http://media.wiley.com/product_data/excerpt/22/04707498/0470749822.pdf}{Automatic keyword extraction from individual documents} for details on how RAKE works.
 #'
 #' @inheritParams slowraker::slowrake
 #' @export

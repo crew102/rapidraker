@@ -56,7 +56,7 @@ rakelist
 You can bind these data frames together using `slowaker::rbind_rakelist()`:
 
 ``` r
-rakedf <- rbind_rakelist(rakelist = rakelist, doc_id = dog_pubs$doi[1:5])
+rakedf <- rbind_rakelist(rakelist, doc_id = dog_pubs$doi[1:5])
 head(rakedf, 5)
 #>                         doc_id                            keyword freq score                   stem
 #> 1 10.1371/journal.pone.0132820 assistance dog identification tags    1  10.8 assist dog identif tag
