@@ -10,7 +10,7 @@ before_install:
   - docker build -t rapidraker-image .
 
 script:
-  - docker run -v `pwd`/rapidraker.Rcheck:/home/rapidraker.Rcheck rapidraker-image /bin/bash -c 'cd .. && R CMD build rapidraker && R CMD check $(ls | grep "tar\\.gz") --as-cran --no-manual'
+  - docker run -v `pwd`/rapidraker.Rcheck:/home/rapidraker.Rcheck rapidraker-image make
 
 after_script:
   - cat rapidraker.Rcheck/`ls rapidraker.Rcheck | grep "\\.log"`
