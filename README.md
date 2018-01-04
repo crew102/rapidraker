@@ -8,13 +8,13 @@ rapidraker
 Installation
 ------------
 
-You can currently get the development verison from Github:
+You can get the stable version on CRAN:
 
 ``` r
-if (!require(devtools)) install.packages("devtools")
-
-devtools::install_github("crew102/rapidraker")
+install.packages("rapidraker")
 ```
+
+The development version of the package requires you to compile the latest Java source code in [rapidrake-java](https://github.com/crew102/rapidrake-java), so it's not as simple as making a call to `devtools::install_github()`.
 
 What is `rapidraker`?
 ---------------------
