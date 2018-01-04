@@ -1,16 +1,11 @@
-all: build-jar doc README.md install-package test
+all: build-jar doc README.md test
 
 # Build java jars and move into inst/java (also runs tests on Java side)
 build-jar:
 	$(MAKE) -C ../rapidrake-java
 	rm -rf inst/java
 	mkdir -p inst/java
-	cp ../rapidrake-java/target/*\.jar inst/java
-
-# Install package locally
-install-package:
-	cd ..; R CMD INSTALL rapidraker --build --no-multiarch
-	cd ..; R CMD INSTALL rapidraker*\.zip --no-multiarch
+	cp $(shell ls ../rapidrake-java/target/*\.jar | grep -vE "javadoc|sources|opennlp") inst/java
 
 # Render README.Rmd to README.md
 README.md: README.Rmd
@@ -23,12 +18,9 @@ doc:
 
 # Run R tests
 test:
-	Rscript -e "devtools::test()"
+	cd ..; R CMD build rapidraker && R CMD check $(shell ls | grep "tar\\.gz") --as-cran --no-manual
 
 # Clean
 clean:
 	rm README.md
 	rm -rf inst/java
-
-cran:
-	Rscript -e "source('inst/make-classpath-helpers.R')"
