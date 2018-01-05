@@ -3,7 +3,7 @@ rapidraker
 
 > A fast version of the Rapid Automatic Keyword Extraction (RAKE) algorithm
 
-[![Linux Build Status](https://travis-ci.org/crew102/rapidraker.svg?branch=master)](https://travis-ci.org/crew102/rapidraker)
+[![Linux Build Status](https://travis-ci.org/crew102/rapidraker.svg?branch=master)](https://travis-ci.org/crew102/rapidraker) [![CRAN version](http://www.r-pkg.org/badges/version/rapidraker)](https://cran.r-project.org/package=rapidraker)
 
 Installation
 ------------
