@@ -11,6 +11,9 @@
 #'
 #' @export
 #'
+#' @importFrom slowraker smart_words
+#' @import openNLPdata
+#'
 #' @examples
 #' rapidrake(txt = "some text that has great keywords")
 rapidrake <- function(txt,
