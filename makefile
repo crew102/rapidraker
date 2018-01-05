@@ -11,7 +11,7 @@ build-jar:
 
 # Render README.Rmd to README.md
 README.md: build-package README.Rmd
-	R CMD INSTALL ../rapidraker*tar\.gz
+	R CMD INSTALL ../rapidraker*tar\.gz --no-multiarch
 	Rscript -e "rmarkdown::render('README.Rmd', output_file = 'README.md', output_dir = getwd(), output_format = 'github_document', quiet = TRUE)"
 	rm README.html
 
@@ -24,7 +24,7 @@ build-package:
 
 # Run R tests
 test: build-package
-	cd ..; R CMD check rapidraker*tar\.gz --as-cran --no-manual
+	cd ..; R CMD check rapidraker*tar\.gz --as-cran --no-manual --no-multiarch
 
 # Clean
 clean:
