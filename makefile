@@ -12,8 +12,8 @@ build-jar:
 # Render README.Rmd to README.md
 README.md: build-package README.Rmd
 	R CMD INSTALL ../rapidraker*tar\.gz --no-multiarch
-	Rscript -e "rmarkdown::render('README.Rmd', output_file = 'README.md', output_dir = getwd(), output_format = 'github_document', quiet = TRUE)"
-	rm README.html
+	- Rscript -e "rmarkdown::render('README.Rmd', output_file = 'README.md', output_dir = getwd(), output_format = 'github_document', quiet = TRUE)"
+	- rm README.html
 
 # Document package
 doc:
