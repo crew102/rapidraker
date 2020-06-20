@@ -9,6 +9,7 @@ WORKDIR /home/rapidraker
 
 RUN apt-get update; \
   apt-get install -y --no-install-recommends openjdk-8-jdk maven r-base-dev; \
+  update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; \
   R CMD javareconf; \
   cd ..; \
   git clone https://github.com/crew102/rapidrake-java.git; \
