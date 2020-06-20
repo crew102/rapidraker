@@ -9,6 +9,11 @@ build-jar:
 	mkdir -p inst/java
 	cp ../rapidrake-java/target/*[0-9]\.jar inst/java # copy rapidrake and opennlp jars
 
+# Install package locally
+install-package:
+	cd ..; R CMD INSTALL rapidraker --build --no-multiarch
+	cd ..; R CMD INSTALL rapidraker_* --no-multiarch
+
 # Render README.Rmd to README.md
 README.md: build-package README.Rmd
 	R CMD INSTALL ../rapidraker*tar\.gz --no-multiarch
