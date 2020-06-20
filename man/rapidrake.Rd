@@ -4,9 +4,14 @@
 \alias{rapidrake}
 \title{Rapid RAKE}
 \usage{
-rapidrake(txt, stop_words = slowraker::smart_words, stop_pos = c("VB",
-  "VBD", "VBG", "VBN", "VBP", "VBZ"), word_min_char = 3, stem = TRUE,
-  phrase_delims = "[-,.?():;\\"!/]")
+rapidrake(
+  txt,
+  stop_words = slowraker::smart_words,
+  stop_pos = c("VB", "VBD", "VBG", "VBN", "VBP", "VBZ"),
+  word_min_char = 3,
+  stem = TRUE,
+  phrase_delims = "[-,.?():;\\"!/]"
+)
 }
 \arguments{
 \item{txt}{A character vector, where each element of the vector contains the
@@ -21,7 +26,7 @@ words (equivalent to
 \item{stop_pos}{All words that have a part-of-speech (POS) that appears in
 \code{stop_pos} will be considered a stop word. \code{stop_pos} should be a
 vector of POS tags. All possible POS tags along with their definitions are
-in the \code{\link{pos_tags}} data frame (\code{View(slowraker::pos_tags)}).
+in the \code{\link[slowraker]{pos_tags}} data frame (\code{View(slowraker::pos_tags)}).
 The default value is to remove all words that have a verb-based
 POS (i.e., \code{stop_pos = c("VB", "VBD", "VBG", "VBN", "VBP", "VBZ")}).
 Set \code{stop_pos = NULL} if you don't want a word's POS to matter during
