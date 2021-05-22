@@ -7,8 +7,8 @@
 ^\.Rhistory$
 ^NEWS\.md$
 ^cran-comments\.md$
-^makefile$
+^Makefile$
 ^inst/make-doc-helpers.R$
 ^TODO\.md$
 ^java/rapidrake/$
-^dockerfile$
+^Dockerfile$
