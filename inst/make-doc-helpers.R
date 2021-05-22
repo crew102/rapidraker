@@ -1,5 +1,5 @@
 # inheritParams has trouble getting this roxygen comment correct, so have to
-# manually overrride .Rd file
+# manually override .Rd file
 
 mnfile <- file("man/rapidrake.Rd")
 rrrd <- readLines(mnfile)

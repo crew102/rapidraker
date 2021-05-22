@@ -11,7 +11,7 @@ build-package:
 	cd ..; R CMD build rapidraker
 
 install-package:
-	cd ..; R CMD install rapidraker_* --no-multiarch
+	cd ..; R CMD INSTALL rapidraker*tar\.gz --no-multiarch
 
 test:
 	cd ..; R CMD check rapidraker*tar\.gz --as-cran --no-manual --no-multiarch
@@ -28,3 +28,5 @@ clean:
 
 cran: README.md doc build-jar build-package install-package test
 	mv ../rapidraker*tar\.gz .
+
+ci-build: build-jar build-package install-package test
