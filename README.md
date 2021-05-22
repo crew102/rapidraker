@@ -3,10 +3,9 @@ rapidraker
 
 > A fast version of the Rapid Automatic Keyword Extraction (RAKE) algorithm
 
-[![Linux Build Status](https://travis-ci.org/crew102/rapidraker.svg?branch=master)](https://travis-ci.org/crew102/rapidraker) [![CRAN version](http://www.r-pkg.org/badges/version/rapidraker)](https://cran.r-project.org/package=rapidraker)
+[![Linux Build Status](https://travis-ci.org/crew102/rapidraker.svg?branch=master)](https://travis-ci.org/crew102/rapidraker)
 
-Installation
-------------
+## Installation
 
 You can get the stable version on CRAN:
 
@@ -16,13 +15,11 @@ install.packages("rapidraker")
 
 The development version of the package requires you to compile the latest Java source code in [rapidrake-java](https://github.com/crew102/rapidrake-java), so installing it is not as simple as making a call to `devtools::install_github()`.
 
-What is `rapidraker`?
----------------------
+## What is `rapidraker`?
 
 `rapidraker` is an R package that provides an implementation of the same keyword extraction algorihtm (RAKE) as `slowraker`. However, `rapidraker::rapidrake()` is written in Java, whereas `slowraker::slowrake()` is written in R. This means that you can expect `rapidrake()` to be considerably faster than `slowrake()`.
 
-Usage
------
+## Usage
 
 `rapidrake()` has the same arguments as `slowrake()`, and both functions output the same type of object. You can therefore substitue `rapidrake()` for `slowraker()` without making any additional changes to your code.
 
@@ -66,7 +63,6 @@ head(rakedf, 5)
 #> 5 10.1371/journal.pone.0132820       seemingly inappropriate dogs    1   7.9    seem inappropri dog
 ```
 
-Learning more
--------------
+## Learning more
 
 -   To learn more about the API used by both `slowraker` and `rapidraker`, head over to `slowraker`'s [webpage](https://crew102.github.io/slowraker/index.html).

@@ -24,5 +24,5 @@ Suggests:
     rmarkdown,
     testthat
 SystemRequirements:
-RoxygenNote: 7.0.2
     Java (>= 1.8)
+RoxygenNote: 7.1.1
