@@ -14,7 +14,7 @@ install-package:
 	cd ..; R CMD INSTALL rapidraker*tar\.gz
 
 test:
-	cd ..; R CMD check rapidraker*tar\.gz --as-cran
+	cd ..; R CMD check rapidraker*tar\.gz --as-cran --no-manual
 
 README.md: README.Rmd
 	Rscript -e "rmarkdown::render('README.Rmd', output_file = 'README.md', output_dir = getwd(), output_format = 'github_document', quiet = TRUE)"
