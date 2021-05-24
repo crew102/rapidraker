@@ -11,10 +11,10 @@ build-package:
 	cd ..; R CMD build rapidraker
 
 install-package:
-	cd ..; R CMD INSTALL rapidraker*tar\.gz --no-multiarch
+	cd ..; R CMD INSTALL rapidraker*tar\.gz
 
 test:
-	cd ..; R CMD check rapidraker*tar\.gz --as-cran --no-manual --no-multiarch
+	cd ..; R CMD check rapidraker*tar\.gz --as-cran
 
 README.md: README.Rmd
 	Rscript -e "rmarkdown::render('README.Rmd', output_file = 'README.md', output_dir = getwd(), output_format = 'github_document', quiet = TRUE)"
@@ -26,7 +26,7 @@ doc:
 clean:
 	- rm -rf inst/java README.md ../rapidraker*tar\.gz rapidraker*tar\.gz
 
-cran: README.md doc build-jar build-package install-package test
+cran: clean README.md doc build-jar build-package install-package test
 	mv ../rapidraker*tar\.gz .
 
 ci-build: build-jar build-package install-package test
