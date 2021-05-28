@@ -9,13 +9,18 @@
 #' @param phrase_delims A regular expression containing the characters that
 #' will be used as phrase delimiters
 #'
+#' @inherit slowraker::slowrake return
+#'
 #' @export
 #'
 #' @importFrom slowraker smart_words
 #' @import openNLPdata
 #'
 #' @examples
-#' rapidrake(txt = "some text that has great keywords")
+#' \dontrun{
+#' rakelist <- rapidrake(txt = "some text that has great keywords")
+#' slowraker::rbind_rakelist(rakelist)
+#' }
 rapidrake <- function(txt,
                       stop_words = slowraker::smart_words,
                       stop_pos = c("VB", "VBD", "VBG", "VBN", "VBP", "VBZ"),
